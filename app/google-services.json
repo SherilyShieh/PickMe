@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "383046042596",
+    "project_id": "petcity-club",
+    "storage_bucket": "petcity-club.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383046042596:android:ed5a22811ebec87717bdf1",
+        "android_client_info": {
+          "package_name": "com.petcity.pickme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383046042596-1dkviucsf72o4fl6uro5b3mnb8dcq0u9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petcity.pickme",
+            "certificate_hash": "0d61b530c553b4fb9cec20432c6f4c3a60689da8"
+          }
+        },
+        {
+          "client_id": "383046042596-cied07gt1v1udsn8ob1pre6gvs4iln3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnQO2PzIkurEn5X_h7KqQ4y9j8_6rzZ2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383046042596-cied07gt1v1udsn8ob1pre6gvs4iln3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
