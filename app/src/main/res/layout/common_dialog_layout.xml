@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:id="@+id/container"
+        android:background="@drawable/round_layout"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/layout_vertical_divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/title"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="Verify Email"
+                android:textColor="@color/primaryTxt"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryTxt"
+                android:textSize="13.33sp"
+                android:gravity="top"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                tools:text="Are you sure to Exit current account，and the relative records will be delete forever util next login,but won.t be recovery entirely!"/>
+
+            <FrameLayout
+                android:layout_marginBottom="15dp"
+                android:id="@+id/edit_fl"
+                android:background="@drawable/round_bg_with_border"
+                android:minHeight="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:hint="Please input your email"
+                    android:id="@+id/edit"
+                    android:minHeight="40dp"
+                    android:inputType="text"
+                    android:layout_gravity="center"
+                    style="@android:style/Widget.TextView"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/layout_horizontal_divider"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/blue"
+                android:text="Cancel"
+                android:id="@+id/button_cancel"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/blue"
+                android:text="OK"
+                android:id="@+id/button_confirm"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

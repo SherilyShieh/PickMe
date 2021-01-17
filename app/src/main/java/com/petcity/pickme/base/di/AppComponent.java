@@ -1,8 +1,5 @@
 package com.petcity.pickme.base.di;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.petcity.pickme.base.PickMeApp;
 
 import javax.inject.Singleton;
@@ -28,7 +25,11 @@ import dagger.android.support.AndroidSupportInjectionModule;
 public interface AppComponent extends AndroidInjector<PickMeApp> {
 
     @Component.Builder
-    abstract class Builder extends AndroidInjector.Builder<PickMeApp> {
+    interface Builder {
+        @BindsInstance
+        AppComponent.Builder application(PickMeApp application);
+
+        AppComponent build();
     }
 
 }

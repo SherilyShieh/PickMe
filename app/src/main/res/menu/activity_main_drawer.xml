@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/setting"
+            android:icon="@mipmap/setting"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/ads"
+            android:icon="@mipmap/ads"
+            android:title="My Ads" />
+
+        <item
+            android:id="@+id/contacted"
+            android:icon="@mipmap/contacted"
+            android:title="Contacted" />
+
+        <item
+            android:id="@+id/about"
+            android:icon="@mipmap/about"
+            android:title="About" />
+
+        <item
+            android:id="@+id/help"
+            android:icon="@mipmap/helpcenter"
+            android:title="Help" />
+
+</menu>

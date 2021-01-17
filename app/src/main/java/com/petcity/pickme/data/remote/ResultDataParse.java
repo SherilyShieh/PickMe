@@ -1,7 +1,6 @@
 package com.petcity.pickme.data.remote;
 
 
-
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
@@ -25,7 +24,7 @@ public class ResultDataParse<T> implements Function<ResultWrapper<T>, Flowable<T
             public void subscribe(@NonNull FlowableEmitter<T> emitter) throws Throwable {
                 if (tResultWrapper.isSuccess()) {
                     if (null == tResultWrapper.getData()) {
-                        emitter.onNext((T)ResultEmpty.EMPTY);
+                        emitter.onNext((T) ResultEmpty.EMPTY);
                     } else {
                         emitter.onNext(tResultWrapper.getData());
                     }

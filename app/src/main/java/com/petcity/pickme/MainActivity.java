@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("MainActivity", "handleFacebookAccessToken:" + token);
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);

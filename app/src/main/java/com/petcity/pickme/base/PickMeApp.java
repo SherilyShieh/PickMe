@@ -1,7 +1,5 @@
 package com.petcity.pickme.base;
 
-import android.app.Application;
-
 import com.petcity.pickme.base.di.DaggerAppComponent;
 
 import dagger.android.AndroidInjector;
@@ -23,6 +21,6 @@ public class PickMeApp extends DaggerApplication {
 
     @Override
     protected AndroidInjector<PickMeApp> applicationInjector() {
-        return DaggerAppComponent.builder().create(this);
+        return DaggerAppComponent.builder().application(this).build();
     }
 }

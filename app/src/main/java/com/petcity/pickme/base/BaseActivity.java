@@ -1,5 +1,6 @@
 package com.petcity.pickme.base;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +49,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     public PreferenceManager preferenceManager;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -56,12 +57,28 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModel());
         initDataBinding();
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.darkBlue));
-        hideBottomUIMenu();
+        hideBottomUIMenu(isHide());
         mAuth = FirebaseAuth.getInstance();
+        setSysNavigationBarColor(getSysNavigationBarColor());
         this.init(savedInstanceState);
+
+
     }
 
-    protected void hideBottomUIMenu() {
+    protected abstract boolean isHide();
+
+    @ColorRes
+    protected abstract int getSysNavigationBarColor();
+
+    protected void setSysNavigationBarColor(@ColorRes int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, color));
+        }
+    }
+
+    protected void hideBottomUIMenu(boolean isHide) {
+        if (!isHide) return;
         //hide Bottom Menu
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
             View v = this.getWindow().getDecorView();
@@ -90,8 +107,13 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
 
     @Override
     protected void onDestroy() {
-        if (mBinding != null )
+        if (mBinding != null)
             mBinding.unbind();
         super.onDestroy();
+    }
+
+    public void loadActivity(Class<?> clz) {
+        Intent intent = new Intent(this, clz);
+        startActivity(intent);
     }
 }

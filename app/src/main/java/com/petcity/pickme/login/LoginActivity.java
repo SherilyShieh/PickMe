@@ -22,7 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -31,13 +30,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.petcity.pickme.R;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
+import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.databinding.ActivityLoginBinding;
+import com.petcity.pickme.home.HomeActivity;
+import com.petcity.pickme.register.RegisterActivity;
+import com.petcity.pickme.signin.SigninWithAccountActivity;
 
 import java.util.Arrays;
-
-import butterknife.OnClick;
-
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements View.OnClickListener {
 
@@ -50,6 +50,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     private static final String AUTH_TYPE = "rerequest";
     private static final int RC_SIGN_IN = 9001;
 
+
+    @Override
+    protected boolean isHide() {
+        return true;
+    }
+
+    @Override
+    protected int getSysNavigationBarColor() {
+        return R.color.darkBlue;
+    }
 
     @Override
     protected Class<LoginViewModel> getViewModel() {
@@ -79,15 +89,21 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
     private void updateUI(FirebaseUser currentUser) {
         if (null != currentUser) {
-            // Go to home page
-//            JumpUtils.withIntent(LoginActivity.this, HomeActivity.class);
-//            finish();
+            goHome();
         }
     }
 
-    private void siginWithThird(final FirebaseUser currentUser) {
+    private void goHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+        finish();
+    }
+    private void siginWithThird(final FirebaseUser currentUser, String channel) {
         String uid = currentUser.getUid();
         String name = currentUser.getDisplayName();
         String[] names = name.split("\\s+");
@@ -98,26 +114,29 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             lastName = names[1];
         }
         final String email = currentUser.getEmail();
-        mViewModel.signinWithThird(uid, firstName,lastName, email)
+        LoadingDialog loadingDialog = new LoadingDialog();
+        mViewModel.signinWithThird(uid, channel, firstName, lastName, email)
                 .observe(LoginActivity.this, new Observer<LiveDataWrapper<SigninReponse>>() {
 
                     @Override
                     public void onChanged(LiveDataWrapper<SigninReponse> signinReponseLiveDataWrapper) {
-                        switch(signinReponseLiveDataWrapper.status) {
+                        switch (signinReponseLiveDataWrapper.status) {
                             case LOADING:
-                                Toast.makeText(LoginActivity.this, "loading...",Toast.LENGTH_SHORT).show();
+                                loadingDialog.show(getSupportFragmentManager(), null);
                                 break;
                             case SUCCESS:
-                                Toast.makeText(LoginActivity.this, "Welcome!",Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismiss();
                                 updateUI(currentUser);
                                 break;
                             case ERROR:
-                                Toast.makeText(LoginActivity.this, "Sigin failed cause by " + signinReponseLiveDataWrapper.error.getMessage(),Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Sigin failed cause by " + signinReponseLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
                 });
     }
+
     private void initFaceBookLogin() {
         facebookBtn = new LoginButton(this);
         facebookBtn.setPermissions(Arrays.asList(EMAIL, USER_PROFILE));
@@ -126,7 +145,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         facebookBtn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-//                setResult(RESULT_OK);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -137,10 +155,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(LoginActivity.this, error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void initGoogleLogin() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -148,6 +167,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
+
     // [START on_activity_result]
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -182,7 +202,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            siginWithThird(user);
+                            siginWithThird(user, "Google");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -206,7 +226,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            siginWithThird(user);
+                            siginWithThird(user, "Facebook");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -229,8 +249,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
             case R.id.petcity_login:
+                loadActivity(SigninWithAccountActivity.class);
                 break;
             case R.id.petcity_create:
+                loadActivity(RegisterActivity.class);
                 break;
 
         }

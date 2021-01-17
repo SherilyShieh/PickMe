@@ -42,20 +42,25 @@ public class LoginViewModel extends BaseViewModel {
     public void onCreateViewModel() {
     }
 
-    public LiveData<LiveDataWrapper<SigninReponse>> signinWithThird(String uid, String firstName, String lastName, String email) {
+    @Override
+    public void loadData(boolean isRefresh) {
+
+    }
+
+    public LiveData<LiveDataWrapper<SigninReponse>> signinWithThird(String uid, String channel, String firstName, String lastName, String email) {
         final MediatorLiveData<LiveDataWrapper<SigninReponse>> signLiveData = new MediatorLiveData<>();
-        SigninRequest request = new SigninRequest(uid, firstName, lastName, email);
+        SigninRequest request = new SigninRequest(uid, channel,firstName, lastName, email, null);
         signLiveData.setValue(LiveDataWrapper.<SigninReponse>loading(null));
         Disposable disposable = apiService.signinWithThird(request)
                 .flatMap(new ResultDataParse<SigninReponse>())
                 .compose(new RxSchedulerTransformer<SigninReponse>())
                 .subscribe(
                         new Consumer<SigninReponse>() {
-                           @Override
-                           public void accept(SigninReponse signinReponse) throws Throwable {
-                               signLiveData.setValue(LiveDataWrapper.success(signinReponse));
+                            @Override
+                            public void accept(SigninReponse signinReponse) throws Throwable {
+                                signLiveData.setValue(LiveDataWrapper.success(signinReponse));
 
-                           }
+                            }
                         },
                         new Consumer<Throwable>() {
                             @Override

@@ -18,21 +18,148 @@
         android:background="@color/darkBlue"
         tools:context=".register.RegisterActivity">
 
-        <ImageView
+        <ImageButton
+            android:background="@null"
             android:id="@+id/back"
             android:src="@mipmap/left_arrow"
             android:padding="15dp"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/large_margin"
-            android:src="@mipmap/pet"
-            android:layout_centerHorizontal="true" />
+        <ScrollView
+            android:layout_below="@id/back"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:paddingBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="115dp"
+                    android:layout_height="83dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:src="@mipmap/pet" />
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@id/logo"
+                    android:id="@+id/first_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="First Name"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input your first name"
+                    app:helperTextEnabled="true"
+                    app:placeholderText="First Name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fn_txt"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/last_name"
+                    android:layout_below="@id/first_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Last Name"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input your last name"
+                    app:helperTextEnabled="true"
+                    app:placeholderText="Last Name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ln_txt"
+                        android:textColor="@color/white"
+                        android:inputType="textPersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email"
+                    android:layout_below="@id/last_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Email"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input your Email"
+                    app:helperTextEnabled="true"
+                    app:placeholderText="Email">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_txt"
+                        android:textColor="@color/white"
+                        android:inputType="textEmailAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password"
+                    android:layout_below="@id/email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Password"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true"
+                    app:helperText="The password should consist of 6 to 20 characters and must contain numbers and letters"
+                    app:helperTextEnabled="true"
+                    app:placeholderText="Password">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pwd_txt"
+                        android:textColor="@color/white"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/confirm_pwd"
+                    android:layout_below="@id/password"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Password"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true"
+                    app:helperText="Please confirm your password"
+                    app:helperTextEnabled="true"
+                    app:placeholderText="Confirm Password">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pwd_confirm_txt"
+                        android:textColor="@color/white"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/register"
+                    android:layout_marginTop="30dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/login_options_btn_selector"
+                    android:text="Register"
+                    android:textAllCaps="false"
+                    android:layout_below="@id/confirm_pwd"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 </layout>

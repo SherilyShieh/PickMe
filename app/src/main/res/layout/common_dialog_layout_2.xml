@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <LinearLayout
+            android:divider="@drawable/layout_vertical_divider"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:background="@drawable/round_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:id="@+id/title"
+                android:gravity="center"
+                tools:text="Update Avatar"
+                android:textColor="@color/secondaryTxt"
+                android:layout_width="match_parent"
+                android:minHeight="40dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/action1"
+                android:gravity="center"
+                tools:text="Take Photo"
+                android:textSize="16sp"
+                android:textColor="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/action2"
+                android:gravity="center"
+                tools:text="Album"
+                android:textSize="16sp"
+                android:textColor="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_bg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/cancel"
+                android:gravity="center"
+                tools:text="Cancel"
+                android:textSize="16sp"
+                android:textColor="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

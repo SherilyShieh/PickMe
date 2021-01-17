@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.petcity.pickme.setting.SettingViewModel"/>
+        <import type="com.petcity.pickme.data.response.User"/>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="SettingViewModel" />
+        <variable
+            name="model"
+            type="User" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkBlue"
+        tools:context=".register.RegisterActivity">
+        <RelativeLayout
+            android:background="@drawable/bg_with_bottom_border2"
+            android:id="@+id/header"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:padding="15dp"
+                android:src="@mipmap/close" />
+            <TextView
+                android:text="Setting"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:layout_toRightOf="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:paddingTop="15dp"
+            android:layout_below="@id/header"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:clickable="true"
+                    android:background="@drawable/bg_selector_rect"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/avatar_fl"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        glideUrl="@{model.avatar}"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@mipmap/avtar" />
+                    <ImageView
+                        android:layout_gravity="end|bottom"
+                        android:src="@mipmap/photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </FrameLayout>
+
+                <RelativeLayout
+                    android:id="@+id/name_rl"
+                    android:layout_below="@id/avatar_fl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/user"
+                        android:id="@+id/user_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:clickable="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/user_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/name"
+                            tools:text="Sherily Shieh"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="@{model.formatName()}"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:clickable="true"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/email_rl"
+                    android:layout_below="@id/name_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/email"
+                        android:id="@+id/email_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/email_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/email"
+                            tools:text="SherilyShieh@gmail.com"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="@{model.email}"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:clickable="true"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/gender_rl"
+                    android:layout_below="@id/email_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/gender"
+                        android:id="@+id/gender_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/gender_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/gender"
+                            tools:text="Female"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="@{model.gender}"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:clickable="true"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/location_rl"
+                    android:layout_below="@id/gender_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/location"
+                        android:id="@+id/location_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/location_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/location"
+                            tools:text="18 Bell Street, Tawa, Wellington"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="@{model.formatAddress()}"
+                            android:layout_centerVertical="true"
+                            android:layout_width="match_parent"
+                            android:layout_marginRight="30dp"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:clickable="true"
+                    android:id="@+id/password_rl"
+                    android:layout_below="@id/location_rl"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/password"
+                        android:id="@+id/password_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/password_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/password"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="************"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:clickable="true"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/logout_rl"
+                    android:layout_below="@id/password_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/logout"
+                        android:id="@+id/logout_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_selector_with_bottom_border"
+                        android:layout_toRightOf="@id/logout_icon"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/logout"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="Log Out"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@mipmap/right_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

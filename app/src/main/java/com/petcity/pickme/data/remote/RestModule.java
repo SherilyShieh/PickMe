@@ -42,11 +42,13 @@ public class RestModule {
 
     @Provides
     @Singleton
-    Gson provideGson() {return new Gson();}
+    Gson provideGson() {
+        return new Gson();
+    }
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson){
+    Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl("http://192.168.31.88:7701/")
                 .client(okHttpClient)
@@ -57,7 +59,7 @@ public class RestModule {
 
     @Singleton
     @Provides
-    ApiService provideApiService(Retrofit retrofit){
+    ApiService provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
 

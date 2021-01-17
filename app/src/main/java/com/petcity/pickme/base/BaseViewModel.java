@@ -3,6 +3,7 @@ package com.petcity.pickme.base;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.AndroidViewModel;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -18,11 +19,16 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public abstract class BaseViewModel extends AndroidViewModel {
 
     private CompositeDisposable mCompositeDisposable;
+    public ObservableBoolean enableLoadMore = new ObservableBoolean(false);
+    public ObservableBoolean enableRefresh = new ObservableBoolean(false);
+    public ObservableBoolean onComplete = new ObservableBoolean(false);
+    public ObservableBoolean isEmpty = new ObservableBoolean(false);
 
     public BaseViewModel(@NonNull PickMeApp application) {
         super(application);
         onCreate();
     }
+
 
     private void onCreate() {
         this.mCompositeDisposable = new CompositeDisposable();
@@ -43,4 +49,6 @@ public abstract class BaseViewModel extends AndroidViewModel {
             mCompositeDisposable.add(disposable);
         }
     }
+
+    public abstract void loadData(boolean isRefresh);
 }

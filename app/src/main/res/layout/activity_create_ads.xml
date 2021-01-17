@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.petcity.pickme.create.CreateAdsViewModel"/>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewmodel"
+            type="CreateAdsViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:background="@color/darkBlue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".create.CreateAdsActivity">
+        <RelativeLayout
+            android:background="@drawable/bg_with_bottom_border2"
+            android:id="@+id/header"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:padding="15dp"
+                android:src="@mipmap/close" />
+            <TextView
+                android:text="Create Service"
+                android:id="@+id/title"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:layout_toRightOf="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/breed_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Dog Breed"
+                    app:errorEnabled="true"
+                    app:helperText="Please select one breed"
+                    app:helperTextEnabled="true">
+                    <AutoCompleteTextView
+                        android:dropDownSelector="@color/white"
+                        android:textColor="@color/white"
+                        android:id="@+id/breed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@+id/breed_tl"
+                    android:id="@+id/date_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Date"
+                    app:errorEnabled="true"
+                    app:helperText="Please select date"
+                    app:helperTextEnabled="true">
+                    <AutoCompleteTextView
+                        android:inputType="none"
+                        android:id="@+id/date"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@+id/date_tl"
+                    android:id="@+id/start_time_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Start Time"
+                    app:errorEnabled="true"
+                    app:helperText="Please select date"
+                    app:helperTextEnabled="true">
+                    <AutoCompleteTextView
+                        android:inputType="none"
+                        android:textColor="@color/white"
+                        android:id="@+id/start_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@id/start_time_tl"
+                    android:id="@+id/duration_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Duration"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input the duration of service"
+                    app:helperTextEnabled="true"
+                    app:suffixText="Hours"
+                    app:placeholderText="Duration">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/duration_txt"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@id/duration_tl"
+                    android:id="@+id/price_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Price"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input the total price of service"
+                    app:helperTextEnabled="true"
+                    app:prefixText="$"
+                    app:placeholderText="Duration">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/price"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@+id/price_tl"
+                    android:id="@+id/location_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Location"
+                    app:errorEnabled="true"
+                    app:helperText="Please select date"
+                    app:helperTextEnabled="true">
+                    <AutoCompleteTextView
+                        android:inputType="none"
+                        android:id="@+id/location"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_below="@id/location_tl"
+                    android:id="@+id/description_tl"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:hint="Description"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:helperText="Please input the description of service"
+                    app:placeholderText="Duration">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:minHeight="100dp"
+                        android:gravity="top"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/post"
+                    android:layout_marginTop="30dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/round_btn_selector"
+                    android:textColor="@color/white"
+                    android:text="POST"
+                    android:layout_below="@id/description_tl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+</layout>

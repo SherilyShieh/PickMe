@@ -57,11 +57,9 @@ public class OptionsActivity extends AppCompatActivity {
     private static final String AUTH_TYPE = "rerequest";
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    private static int AUTOCOMPLETE_REQUEST_CODE = 1001;
 
     private PlacesClient placesClient;
-
-
 
 
     @Override
@@ -102,34 +100,35 @@ public class OptionsActivity extends AppCompatActivity {
 
             }
         });
-        // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NotNull Place place) {
-                // TODO: Get info about the selected place.
-                Log.i("onPlaceSelected", "Place: " + place.getName() + ", " + place.getId());
-            }
-
-
-            @Override
-            public void onError(@NotNull Status status) {
-                // TODO: Handle the error.
-                Log.i("TAGonError", "An error occurred: " + status);
-            }
-        });
+//        // Initialize the AutocompleteSupportFragment.
+//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+//                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//
+//        // Specify the types of place data to return.
+//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+//
+//        // Set up a PlaceSelectionListener to handle the response.
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(@NotNull Place place) {
+//                // TODO: Get info about the selected place.
+//                Log.i("onPlaceSelected", "Place: " + place.getName() + ", " + place.getId());
+//            }
+//
+//
+//            @Override
+//            public void onError(@NotNull Status status) {
+//                // TODO: Handle the error.
+//                Log.i("TAGonError", "An error occurred: " + status);
+//            }
+//        });
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS);
 
         // Start the autocomplete intent.
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .setCountry("NZ")
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
 //        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -165,6 +164,7 @@ public class OptionsActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("MainActivity", "handleFacebookAccessToken:" + token);
 
@@ -191,13 +191,15 @@ public class OptionsActivity extends AppCompatActivity {
                     }
                 });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i("TAG", "Place: " + place.getName() + ", " + place.getId());
+                Log.i("TAG", "Place: " + place.getAddress() + ", " + place.getId());
+
             } else if (resultCode == 2) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -206,6 +208,8 @@ public class OptionsActivity extends AppCompatActivity {
                 // The user canceled the operation.
             }
             return;
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

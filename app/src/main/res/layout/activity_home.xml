@@ -1,10 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".home.HomeActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.petcity.pickme.home.HomeViewModel"/>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="HomeViewModel" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start"
+        android:orientation="vertical">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:background="@color/darkBlue"
+            android:fitsSystemWindows="true"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+            <!-- Note: A RecyclerView can also be used -->
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                onComplete="@{viewModel.onComplete}"
+                OnRefreshListener="@{viewModel}"
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.petcity.pickme.common.widget.WRecyclerView
+                        OnLoadMoreListener="@{viewModel}"
+                        enableFresh="@{viewModel.enableRefresh}"
+                        enableLoadMore="@{viewModel.enableLoadMore}"
+                        onComplete="@{viewModel.onComplete}"
+                        adapter="@{viewModel.adapter}"
+                        android:padding="16dp"
+                        android:layout_marginBottom="40dp"
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:cacheColorHint="#00000000"
+                        android:visibility="@{viewModel.isEmpty ? View.GONE : View.VISIBLE}"
+                        android:listSelector="#00000000"
+                        android:scrollbars="none"
+                        app:layoutManager="@string/LinearLayoutManager"/>
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/empty_view"
+                        android:visibility="@{viewModel.isEmpty ? View.VISIBLE : View.GONE}"                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/darkBlue"
+                        android:fillViewport="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/empty_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:drawablePadding="@dimen/padding_small"
+                                android:drawableTop="@mipmap/empty" />
+                        </RelativeLayout>
+
+                    </androidx.core.widget.NestedScrollView>
+                </FrameLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:backgroundTint="@color/middleBlue"
+                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+                app:navigationIcon="@drawable/ic_drawer_menu_24px"
+                app:menu="@menu/demo_primary"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_add_24dp"
+                app:layout_anchor="@id/bottomAppBar"
+                />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+<!--        app:headerLayout="@layout/nav_header_main"-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:backgroundTint="@color/drawerBlue"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:insetForeground="@android:color/transparent"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/white"
+            app:menu="@menu/activity_main_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

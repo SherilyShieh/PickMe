@@ -14,6 +14,9 @@ public class SigninRequest {
     @SerializedName("uid")
     private String uid;
 
+    @SerializedName("channel")
+    private String channel;
+
     @SerializedName("first_name")
     private String firstName;
 
@@ -23,11 +26,15 @@ public class SigninRequest {
     @SerializedName("email")
     private String email;
 
-    public SigninRequest(String uid, String firstName, String lastName, String email) {
+    @SerializedName("password")
+    private String password;
+
+    public SigninRequest(String uid, String channel, String firstName, String lastName, String email, String password) {
         this.uid = uid;
+        this.channel = channel;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
-
 }

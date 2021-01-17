@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.petcity.pickme.home.HomeViewModel"/>
+        <import type="com.petcity.pickme.data.response.AdvertiseResponse"/>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="HomeViewModel" />
+        <variable
+            name="model"
+            type="AdvertiseResponse" />
+
+    </data>
+    <RelativeLayout
+        android:background="@drawable/round_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <RelativeLayout
+            android:id="@+id/card_header"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar"
+                android:layout_centerVertical="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                glideUrl="@{model.user.avatar}"/>
+            <RelativeLayout
+                android:layout_toRightOf="@id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/breed"
+                    android:text="@{model.dog_breed}"
+                    tools:text="Dautch"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/breed"
+                    android:id="@+id/time"
+                    android:text="@{model.formatDate()}"
+                    tools:text="03/03/2021 11:00AM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/time"
+                    android:id="@+id/price"
+                    android:text="@{model.formatPrice()}"
+                    tools:text="$60 for 2 hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/location"
+                    android:layout_below="@+id/price"
+                    android:text="@{model.formatLocation()}"
+                    tools:text="Tawa, Wellington"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="16dp"
+            android:text="@{model.description}"
+            tools:text="My dog doesn't like to play with big dogs, so please don't sneak him around with large dogs."
+            android:layout_below="@id/card_header"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:onClick="@{() -> viewModel.showDialog(model)}"
+            android:layout_below="@+id/content"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/contact"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONTACT" />
+
+    </RelativeLayout>
+</layout>

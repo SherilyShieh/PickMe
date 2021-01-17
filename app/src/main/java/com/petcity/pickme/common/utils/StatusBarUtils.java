@@ -50,7 +50,7 @@ public class StatusBarUtils {
      * set the StatusBar's background color
      *
      * @param context it's better to use the context of Activity
-     * @param color  target color
+     * @param color   target color
      */
     public static void setColor(Context context, int color) {
         if (context instanceof Activity) {

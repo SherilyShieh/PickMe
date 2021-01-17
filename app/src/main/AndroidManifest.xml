@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.petcity.pickme">
 
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- <queries> -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- <queries> -->
     <!-- <package android:name="com.facebook.katana" /> -->
     <!-- </queries> -->
     <dist:module dist:instant="true" />
@@ -18,17 +23,44 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".register.RegisterActivity"></activity>
-        <activity android:name=".home.HomeActivity" />
-        <activity android:name=".TestActivity" />
-        <activity android:name=".login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".create.CreateAdsActivity">
+        </activity>
+        <activity android:name=".help.HelpActivity" />
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".contacted.MyContactedActivity" />
+        <activity android:name=".ads.MyAdsActivity" />
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".signin.SigninWithAccountActivity" />
+        <activity android:name=".register.RegisterActivity">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="petcity-club.firebaseapp.com/"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".options.OptionsActivity" />
+        <activity android:name=".home.HomeActivity">
+        </activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".login.LoginActivity">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
+        <activity android:name=".options.OptionsActivity">
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
+
+
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
+        </activity>
         <activity android:name=".MainActivity" />
         <activity android:name="com.google.android.libraries.places.widget.AutocompleteActivity" />
 

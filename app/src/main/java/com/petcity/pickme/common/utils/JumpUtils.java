@@ -19,7 +19,7 @@ public class JumpUtils {
     }
 
     //跳转到指定页面,并获取到返回的数据
-    public static void withResult(Activity context, Class activity,  int value) {
+    public static void withResult(Activity context, Class activity, int value) {
         Intent intent = new Intent(context, activity);
         context.startActivityForResult(intent, value);
     }

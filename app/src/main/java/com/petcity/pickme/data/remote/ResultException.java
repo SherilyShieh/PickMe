@@ -7,7 +7,7 @@ package com.petcity.pickme.data.remote;
  * @Date 9/01/21 1:17 PM
  * @Version 1.0
  */
-public class ResultException  extends Exception {
+public class ResultException extends Exception {
 
     public int errorCode;
 
