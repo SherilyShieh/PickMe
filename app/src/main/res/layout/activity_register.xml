@@ -118,7 +118,7 @@
                     android:hint="Password"
                     app:endIconMode="password_toggle"
                     app:errorEnabled="true"
-                    app:helperText="The password should consist of 6 to 20 characters and must contain numbers and letters"
+                    app:helperText="6 to 20 characters, including numbers and letters"
                     app:helperTextEnabled="true"
                     app:placeholderText="Password">
                     <com.google.android.material.textfield.TextInputEditText
@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:hint="Password"
+                    android:hint="Confirm Password"
                     app:endIconMode="password_toggle"
                     app:errorEnabled="true"
                     app:helperText="Please confirm your password"

@@ -53,6 +53,31 @@
         <item name="android:windowBackground">@color/transparent</item>
     </style>
 
+    <style name="border_text" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/fourthTxt</item>
+        <item name="hintTextColor">@color/secondaryTxt</item>
+        <item name="colorOnPrimary">@color/secondaryTxt</item>
+        <item name="colorPrimary">@color/secondaryTxt</item>
+        <item name="endIconTint">@color/fourthTxt</item>
+        <item name="colorControlNormal">@color/fourthTxt</item>
+        <item name="colorControlActivated">@color/fourthTxt</item>
+        <item name="colorControlHighlight">@color/fourthTxt</item>
+        <item name="boxStrokeColor">@color/fourthTxt</item>
+        <item name="helperTextTextColor">@color/fourthTxt</item>
+    </style>
+
+    <style name="border_text2" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/fourthTxt</item>
+        <item name="hintTextColor">@color/secondaryTxt</item>
+        <item name="colorOnPrimary">@color/secondaryTxt</item>
+        <item name="colorPrimary">@color/secondaryTxt</item>
+        <item name="endIconTint">@color/fourthTxt</item>
+        <item name="colorControlNormal">@color/fourthTxt</item>
+        <item name="colorControlActivated">@color/fourthTxt</item>
+        <item name="colorControlHighlight">@color/fourthTxt</item>
+        <item name="boxStrokeColor">@color/fourthTxt</item>
+        <item name="helperTextTextColor">@color/fourthTxt</item>
+    </style>
     <style name="high_light_text">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/blue</item>

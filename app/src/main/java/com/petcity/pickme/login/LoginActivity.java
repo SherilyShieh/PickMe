@@ -184,6 +184,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 Log.w(TAG, "Google sign in failed", e);
                 // [START_EXCLUDE]
                 updateUI(null);
+                Toast.makeText(LoginActivity.this, "Sigin failed cause by:  " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }
         } else {

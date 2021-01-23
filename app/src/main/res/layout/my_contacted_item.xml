@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.petcity.pickme.contacted.MyContactedViewModel"/>
+        <import type="com.petcity.pickme.data.response.ContactedResponse"/>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="MyContactedViewModel" />
+        <variable
+            name="model"
+            type="ContactedResponse" />
+
+    </data>
+<RelativeLayout
+    android:padding="16dp"
+    android:background="@color/darkBlue"
+    android:minHeight="100dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatar"
+        android:layout_centerVertical="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="16dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        tools:src="@mipmap/avtar"
+        glideUrl="@{model.advertise.user.avatar}"/>
+    <RelativeLayout
+        android:layout_toRightOf="@id/avatar"
+        android:gravity="center"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/breed"
+            android:textColor="@color/white"
+            android:text="@{model.advertise.dog_breed}"
+            tools:text="Dauchund"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/price"
+            android:textColor="@color/white"
+            android:text="@{model.advertise.formatPrice()}"
+            tools:text="$60 for 2 hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_toRightOf="@id/avatar"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/header"
+        android:id="@+id/right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/date_time"
+            android:text="@{model.advertise.formatDate()}"
+            tools:text="2021/01/03 11:00AM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginRight="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/date_time"
+            android:layout_toLeftOf="@id/resend"
+            android:textColor="@color/white"
+            android:id="@+id/location"
+            tools:text="Lower Hutt, Wellington"
+            android:text="@{model.advertise.formatLocation()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:onClick="@{() -> viewModel.deleteFuc(model)}"
+            android:id="@+id/delete"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+        <ImageView
+            android:id="@+id/resend"
+            android:onClick="@{() -> viewModel.resendFuc(model)}"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/delete"
+            android:src="@mipmap/resend_email"
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+</layout>

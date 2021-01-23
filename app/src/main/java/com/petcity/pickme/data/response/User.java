@@ -46,6 +46,9 @@ public class User {
     @SerializedName("avatar")
     private String avatar;
 
+    @SerializedName("channel")
+    private String channel;
+
     public User(int user_id, String uid, String firstName, String lastName, String email, String password, String region, String district, String detail_address, String gender, String avatar) {
         this.user_id = user_id;
         this.uid = uid;
@@ -115,5 +118,13 @@ public class User {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public String getChannel() {
+        return channel;
     }
 }

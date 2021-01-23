@@ -1,5 +1,7 @@
 package com.petcity.pickme.setting;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -7,6 +9,7 @@ import androidx.lifecycle.MediatorLiveData;
 import com.petcity.pickme.base.BaseViewModel;
 import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.base.PickMeApp;
+import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.data.remote.ApiService;
 import com.petcity.pickme.data.remote.ResultDataParse;
 import com.petcity.pickme.data.remote.RxSchedulerTransformer;
@@ -31,6 +34,9 @@ public class SettingViewModel extends BaseViewModel {
     ApiService apiService;
 
     @Inject
+    PreferenceManager preferences;
+
+    @Inject
     public SettingViewModel(@NonNull PickMeApp application) {
         super(application);
     }
@@ -50,18 +56,34 @@ public class SettingViewModel extends BaseViewModel {
         request.setPassword(password);
         request.setEmail(email);
         request.setGender(gender);
-        String[] places = location.split(",");
-        request.setRegion(places[places.length - 1]);
-        request.setDistrict(places[places.length - 2]);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < places.length - 2; i++) {
-            sb.append(places[i].trim());
-            if (i < places.length - 3) {
-                sb.append(", ");
+        if (!TextUtils.isEmpty(location)) {
+            String[] places = location.split(", ");
+            if (places.length >= 4 ) {
+                request.setRegion(places[places.length - 2].trim());
+                request.setDistrict(places[places.length - 3].trim());
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < places.length - 3; i++) {
+                    sb.append(places[i].trim());
+                    if (i < places.length - 4) {
+                        sb.append(", ");
+                    }
+                }
+                if (sb.toString().length() > 0) {
+                    request.setDetail_address(sb.toString().trim());
+                }
+            } else if (places.length >= 3) {
+                    request.setRegion(places[places.length - 2].trim());
+                    request.setDistrict("");
+                    request.setDetail_address(places[places.length - 3].trim());
+            } else if (places.length >= 2){
+                request.setRegion(places[places.length - 2].trim());
+                request.setDistrict("");
+                request.setDetail_address("");
+            } else {
+                request.setRegion("");
+                request.setDistrict("");
+                request.setDetail_address("");
             }
-        }
-        if (sb.toString().length() > 0) {
-            request.setDetail_address(sb.toString().trim());
         }
 
         updates.setValue(LiveDataWrapper.<User>loading(null));
@@ -72,8 +94,8 @@ public class SettingViewModel extends BaseViewModel {
                         new Consumer<User>() {
                             @Override
                             public void accept(User user) throws Throwable {
+                                preferences.setCurrentUserInfo(user);
                                 updates.setValue(LiveDataWrapper.success(user));
-
                             }
                         },
                         new Consumer<Throwable>() {

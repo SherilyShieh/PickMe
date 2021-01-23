@@ -27,7 +27,7 @@ public class BindingEvent {
         Glide.with(iv.getContext())
                 .load(url)
                 .centerCrop()
-                .error(R.mipmap.error)
+                .error(R.mipmap.avtar)
                 .placeholder(R.mipmap.avtar)
                 .into(iv);
     }

@@ -11,11 +11,17 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CreateAdRequest {
 
+    @SerializedName("ad_id")
+    private int adId;
+
     @SerializedName("user_id")
     private int userId;
 
+    @SerializedName("type")
+    private String type;
+
     @SerializedName("dog_breed")
-    private int dogBreed;
+    private String dogBreed;
 
     @SerializedName("date")
     private String date;
@@ -38,11 +44,18 @@ public class CreateAdRequest {
     @SerializedName("description")
     private String description;
 
+    public void setAdId(int adId) {
+        this.adId = adId;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public void setDogBreed(int dogBreed) {
+    public void setDogBreed(String dogBreed) {
         this.dogBreed = dogBreed;
     }
 

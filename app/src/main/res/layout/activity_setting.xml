@@ -83,6 +83,7 @@
                 </FrameLayout>
 
                 <RelativeLayout
+                    android:clickable="true"
                     android:id="@+id/name_rl"
                     android:layout_below="@id/avatar_fl"
                     android:layout_width="match_parent"
@@ -95,7 +96,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RelativeLayout
-                        android:clickable="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/bg_selector_with_bottom_border"
                         android:layout_toRightOf="@id/user_icon"

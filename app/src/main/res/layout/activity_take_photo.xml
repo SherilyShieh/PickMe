@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_up_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".photo.TakePhotoActivity">
+        <ImageView
+            android:id="@+id/photoshow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_marginLeft="10dp"
+                android:text="拍照打卡"
+                android:id="@+id/takephoto"
+                android:layout_width="180dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_marginRight="0dp"
+                android:text="确认上传"
+                android:id="@+id/upphoto"
+                android:layout_width="180dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

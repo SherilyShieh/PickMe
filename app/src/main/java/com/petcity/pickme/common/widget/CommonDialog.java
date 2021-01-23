@@ -1,6 +1,7 @@
 package com.petcity.pickme.common.widget;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -72,6 +74,11 @@ public class CommonDialog extends DialogFragment {
 
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        binding.edit.setText("");
+    }
 
     public SpannableStringBuilder matcherSearchText(int color, float textSize, String text, String keyword) {
         if ( textSize == 0.0f )

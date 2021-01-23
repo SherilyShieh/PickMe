@@ -29,47 +29,40 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="Update Password"
+                android:text="Update Gender"
                 android:textColor="@color/primaryTxt"
                 tools:ignore="HardcodedText" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password"
-                style="@style/border_text"
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:hint="Password"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true"
-                app:helperText="6 to 20 characters, including numbers and letters"
-                app:helperTextEnabled="true"
-                app:placeholderText="Password">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pwd_txt"
-                    android:textColor="@color/secondaryTxt"
-                    android:inputType="textPassword"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/female"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirm_pwd"
-                style="@style/border_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:hint="Confirm Password"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true"
-                app:helperText="Please confirm your password"
-                app:helperTextEnabled="true"
-                app:placeholderText="Confirm Password">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pwd_confirm_txt"
+                    android:layout_height="match_parent"
+                    android:checked="false"
                     android:textColor="@color/secondaryTxt"
-                    android:inputType="textPassword"
+                    android:enabled="true"
+                    android:text="Female"/>
+                <RadioButton
+                    android:id="@+id/male"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:textColor="@color/secondaryTxt"
+                    android:text="Male"/>
+                <RadioButton
+                    android:id="@+id/x"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:textColor="@color/secondaryTxt"
+                    android:text="X"/>
+            </RadioGroup>
 
         </LinearLayout>
 

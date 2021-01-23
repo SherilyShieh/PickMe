@@ -2,17 +2,21 @@ package com.petcity.pickme.common.widget;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -20,9 +24,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.petcity.pickme.R;
+import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.RegexUtils;
-import com.petcity.pickme.databinding.DialogUpdatePasswordBinding;
+import com.petcity.pickme.databinding.DialogUpdateEmailBinding;
+import com.petcity.pickme.databinding.DialogUpdateNameBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +41,14 @@ import java.util.List;
  * @Date 17/01/21 6:05 PM
  * @Version 1.0
  */
-public class UpdatePwdDialog extends DialogFragment {
+public class UpdateEmailDialog extends DialogFragment {
 
     private static final String KEY_PARAM = "PARAM";
-    private DialogUpdatePasswordBinding binding;
+    private DialogUpdateEmailBinding binding;
     private List<TextInputEditText> errorList;
 
     public interface OnClickListener {
-        void onClick(View v, String password);
+        void onClick(View v, String email);
     }
 
     View.OnClickListener mCancelListener;
@@ -50,7 +57,7 @@ public class UpdatePwdDialog extends DialogFragment {
 
 
     @SuppressLint("ValidFragment")
-    private UpdatePwdDialog() {
+    private UpdateEmailDialog() {
     }
 
     @Override
@@ -59,13 +66,37 @@ public class UpdatePwdDialog extends DialogFragment {
         setStyle(STYLE_NO_TITLE, R.style.dialog_no_bg);
     }
 
+    @SuppressLint("ResourceAsColor")
+    private void setWidth() {
+        // 隐藏标题栏, 不加弹窗上方会一个透明的标题栏占着空间
+        Resources resources = this.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        int width = dm.widthPixels;
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // 必须设置这两个,才能设置宽度
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getDialog().getWindow().getDecorView().setBackgroundColor(R.color.black20);
+
+        // 遮罩层透明度
+        getDialog().getWindow().setDimAmount(0);
+
+        // 设置宽度
+        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.CENTER;
+//        params.windowAnimations = R.style.bottomSheet_animation;
+        getDialog().getWindow().setAttributes(params);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_password,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_email,container,false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        binding.pwdTxt.addTextChangedListener(txtWatcher(binding.password));
-        binding.pwdConfirmTxt.addTextChangedListener(txtWatcher(binding.confirmPwd));
+//        setWidth();
+//        binding.emailTxt.setHint(PreferenceManager.getInstance().getCurrentUserInfo().getEmail());
+        binding.emailTxt.addTextChangedListener(txtWatcher(binding.email));
         binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,27 +107,34 @@ public class UpdatePwdDialog extends DialogFragment {
         binding.buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                errorList = new ArrayList();
-                boolean validatePwd = validatePwd();
-                boolean validatePwdConfirm = validatePwdConfirm();
-                if (validatePwd && validatePwdConfirm) {
+                if (validateEmail()) {
                     if (null != mConfirmListener)
-                        mConfirmListener.onClick(v, binding.pwdTxt.getText().toString().trim());
-                }  if (!errorList.isEmpty() && !errorList.get(0).hasFocus()) {
-                    errorList.get(0).requestFocus();
+                        mConfirmListener.onClick(v, binding.emailTxt.getText().toString().trim());
                 }
+
             }
         });
         return binding.getRoot();
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        binding.pwdTxt.setText("");
-        binding.pwdConfirmTxt.setText("");
+    private boolean validateEmail() {
+        errorList = new ArrayList<>();
+        String email = binding.emailTxt.getText().toString().trim();
+        if (TextUtils.isEmpty(email)) {
+            binding.email.setError("Email cannot be empty!");
+            errorList.add(binding.emailTxt);
+            return false;
+        } else if (!RegexUtils.isValidEmail(email)) {
+            binding.email.setError("Invalid email format!");
+            errorList.add(binding.emailTxt);
+            return false;
+        } else if (TextUtils.equals(email, PreferenceManager.getInstance().getCurrentUserInfo().getEmail())) {
+            binding.email.setError("Please bind a email different from the current one!");
+            errorList.add(binding.emailTxt);
+            return false;
+        }
+        return true;
     }
-
     private TextWatcher txtWatcher(TextInputLayout textLayout) {
         return new TextWatcher() {
 
@@ -117,36 +155,13 @@ public class UpdatePwdDialog extends DialogFragment {
             }
         };
     }
-    private boolean validatePwd() {
-        String pwd = binding.pwdTxt.getText().toString().trim();
-        if (TextUtils.isEmpty(pwd)) {
-            binding.password.setError("Password cannot be empty!");
-            errorList.add(binding.pwdTxt);
-            return false;
-        } else if (!RegexUtils.isValidPwd(pwd)) {
-            binding.password.setError("Invalid password: password must be composed of " +
-                    "6-20 characters and contain numbers and letters!");
-            errorList.add(binding.pwdTxt);
-            return false;
-        }
-        return true;
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        binding.emailTxt.setText("");
     }
 
-    private boolean validatePwdConfirm() {
-        String pwdConfirm = binding.pwdConfirmTxt.getText().toString().trim();
-        String pwd = binding.pwdTxt.getText().toString().trim();
-        if (TextUtils.isEmpty(pwdConfirm)) {
-            binding.confirmPwd.setError("Confirm password cannot be empty!");
-            errorList.add(binding.pwdConfirmTxt);
-            return false;
-        }
-        if (!TextUtils.isEmpty(pwd) && !TextUtils.equals(pwd, pwdConfirm)) {
-            binding.confirmPwd.setError("Two inconsistent passwords!");
-            errorList.add(binding.pwdConfirmTxt);
-            return false;
-        }
-        return true;
-    }
 
     public void setmCancelListener(View.OnClickListener mCancelListener) {
         this.mCancelListener = mCancelListener;
@@ -156,8 +171,8 @@ public class UpdatePwdDialog extends DialogFragment {
         this.mConfirmListener = mConfirmListener;
     }
 
-    static UpdatePwdDialog newInstance(){
-        UpdatePwdDialog fragment = new UpdatePwdDialog();
+    static UpdateEmailDialog newInstance(){
+        UpdateEmailDialog fragment = new UpdateEmailDialog();
         return fragment;
     }
 
@@ -179,8 +194,8 @@ public class UpdatePwdDialog extends DialogFragment {
             return this;
         }
 
-        public UpdatePwdDialog create() {
-            UpdatePwdDialog fragment = newInstance();
+        public UpdateEmailDialog create() {
+            UpdateEmailDialog fragment = newInstance();
             fragment.setmCancelListener(mCancelListener);
             fragment.setmConfirmListener(mConfirmListener);
             return fragment;

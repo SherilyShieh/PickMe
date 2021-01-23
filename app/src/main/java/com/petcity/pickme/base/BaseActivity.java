@@ -46,7 +46,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
-    public PreferenceManager preferenceManager;
+    PreferenceManager preferenceManager;
 
 
     @Override

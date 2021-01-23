@@ -1,6 +1,7 @@
 package com.petcity.pickme.data.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.petcity.pickme.common.utils.TimeUtils;
 
 /**
  * @ClassName AdvertiseResponse
@@ -79,7 +80,7 @@ public class AdvertiseResponse {
     }
 
     public String formatDate() {
-        return date + " " + start_time;
+        return TimeUtils.dealDateFormat(date) + " " + start_time;
     }
 
     public String formatLocation() {

@@ -55,7 +55,14 @@ public class PreferenceManager {
             mEditor.commit();
         }
     }
-
+    public void clearCurrentUserInfo() {
+        mEditor.putString(CURRENT_USERINFO, "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            mEditor.apply();
+        } else {
+            mEditor.commit();
+        }
+    }
     public User getCurrentUserInfo() {
         String userjson = mSharedPreferences.getString(CURRENT_USERINFO, null);
         if (TextUtils.isEmpty(userjson))

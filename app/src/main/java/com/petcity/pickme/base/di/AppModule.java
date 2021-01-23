@@ -1,10 +1,8 @@
 package com.petcity.pickme.base.di;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+
 
 import com.petcity.pickme.base.PickMeApp;
-import com.petcity.pickme.common.Constants;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.data.remote.RestModule;
 
