@@ -7,7 +7,7 @@ import dagger.android.support.DaggerApplication;
 
 /**
  * @ClassName PickMeApp
- * @Description TODO
+ * @Description PickMeApp
  * @Author sherily
  * @Date 6/01/21 2:25 PM
  * @Version 1.0

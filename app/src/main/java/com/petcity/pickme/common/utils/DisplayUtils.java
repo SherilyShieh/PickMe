@@ -5,7 +5,7 @@ import android.util.DisplayMetrics;
 
 /**
  * @ClassName DisplayUtils
- * @Description TODO
+ * @Description DisplayUtils
  * @Author sherily
  * @Date 22/01/21 10:13 PM
  * @Version 1.0

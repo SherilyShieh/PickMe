@@ -5,7 +5,7 @@ import com.petcity.pickme.common.utils.TimeUtils;
 
 /**
  * @ClassName AdvertiseResponse
- * @Description TODO
+ * @Description AdvertiseResponse
  * @Author sherily
  * @Date 15/01/21 4:08 PM
  * @Version 1.0

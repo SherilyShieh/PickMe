@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PickMe</string>
+    <string name="app_name">PetCity</string>
     <string name="facebook_app_id">182249123613815</string>
     <string name="fb_login_protocol_scheme">fb182249123613815</string>
 

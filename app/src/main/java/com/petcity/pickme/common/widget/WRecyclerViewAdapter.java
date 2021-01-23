@@ -9,18 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
+ * @ClassName Constants
+ * @Description Constants
+ * @Author sherily
+ * @Date 6/01/21 2:35 PM
+ * @Version 1.0
  * Used 自定义RecyclerView适配器
  */
-public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-	private static final String TAG = WRecyclerViewAdapter.class.getSimpleName();
-	
-	private RecyclerView.Adapter adapter;
-	/**是否启用上拉加载功能的标记：true-使用；false-禁用*/
-	private boolean mEnablePullLoad;
-	/**上拉加载区域（foot区域）*/
-	private WRecyclerViewFooter mFooterView;
-	
-	//下面的ItemViewType是保留值(ReservedItemViewType),如果用户的adapter与它们重复将会强制抛出异常。不过为了简化,我们检测到重复时对用户的提示是ItemViewType必须小于10000
+public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = WRecyclerViewAdapter.class.getSimpleName();
+
+    private RecyclerView.Adapter adapter;
+    /**
+     * 是否启用上拉加载功能的标记：true-使用；false-禁用
+     */
+    private boolean mEnablePullLoad;
+    /**
+     * 上拉加载区域（foot区域）
+     */
+    private WRecyclerViewFooter mFooterView;
+
+    //下面的ItemViewType是保留值(ReservedItemViewType),如果用户的adapter与它们重复将会强制抛出异常。不过为了简化,我们检测到重复时对用户的提示是ItemViewType必须小于10000
     private static final int TYPE_FOOTER = 100001;//设置一个很大的数字,尽可能避免和用户的adapter冲突
     private static final int TYPE_ITEM = 100002;
 
@@ -29,37 +38,37 @@ public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.mFooterView = mFooterView;
         this.mEnablePullLoad = mEnablePullLoad;
     }
-    
-    /** 
-	 * 获取总的条目数
-	 */
+
+    /**
+     * 获取总的条目数
+     */
     @Override
     public int getItemCount() {
         if (adapter == null) return 0;
         int itemCount = adapter.getItemCount();
-        if(mEnablePullLoad) {//如果启用上拉加载区域，那么就需要在原来的列表总数基础上加1
+        if (mEnablePullLoad) {//如果启用上拉加载区域，那么就需要在原来的列表总数基础上加1
             itemCount = itemCount + 1;
         }
         return itemCount;
     }
-    
+
     @Override
     public int getItemViewType(int position) {
         if (isFooter(position)) {
             return TYPE_FOOTER;
-        }else{
+        } else {
 //        	return TYPE_ITEM;//不能return TYPE_ITEM，因为adapter中可能会设置不同的类型
             return adapter.getItemViewType(position);
         }
     }
-    
-    /** 
-	 * 判断是否属于上拉加载区域-即最后一行
-	 */
+
+    /**
+     * 判断是否属于上拉加载区域-即最后一行
+     */
     public boolean isFooter(int position) {
-        if(mEnablePullLoad) {//如果启用上拉加载区域，那么最后一行，就是总数目- 1
+        if (mEnablePullLoad) {//如果启用上拉加载区域，那么最后一行，就是总数目- 1
             return position == getItemCount() - 1;
-        }else {
+        } else {
             return false;
         }
     }
@@ -84,13 +93,14 @@ public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    /**简单的ViewHolder*/
+    /**
+     * 简单的ViewHolder
+     */
     private class SimpleViewHolder extends RecyclerView.ViewHolder {
         public SimpleViewHolder(View itemView) {
             super(itemView);
         }
     }
-    
 
 
     @Override
@@ -104,7 +114,7 @@ public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                	//如果是底部上拉加载区域，则独占一行
+                    //如果是底部上拉加载区域，则独占一行
                     return isFooter(position) ? gridManager.getSpanCount() : 1;
                 }
             });
@@ -117,7 +127,7 @@ public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (adapter == null) return;
         adapter.onDetachedFromRecyclerView(recyclerView);
     }
-    
+
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
@@ -158,11 +168,14 @@ public class WRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (adapter == null) return;
         adapter.registerAdapterDataObserver(observer);
     }
+
     public boolean ismEnablePullLoad() {
         return mEnablePullLoad;
     }
 
-    /**解决当第一页显示出来footview的时候刷新崩溃的问题*/
+    /**
+     * 解决当第一页显示出来footview的时候刷新崩溃的问题
+     */
     public void setmEnablePullLoad(boolean mEnablePullLoad) {
         this.mEnablePullLoad = mEnablePullLoad;
     }

@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @ClassName RestModule
- * @Description TODO
+ * @Description RestModule
  * @Author sherily
  * @Date 6/01/21 7:34 PM
  * @Version 1.0

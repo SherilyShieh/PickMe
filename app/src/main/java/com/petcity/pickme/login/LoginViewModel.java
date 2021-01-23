@@ -22,7 +22,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * @ClassName LoginViewModel
- * @Description TODO
+ * @Description LoginViewModel
  * @Author sherily
  * @Date 6/01/21 5:53 PM
  * @Version 1.0
@@ -49,7 +49,7 @@ public class LoginViewModel extends BaseViewModel {
 
     public LiveData<LiveDataWrapper<SigninReponse>> signinWithThird(String uid, String channel, String firstName, String lastName, String email) {
         final MediatorLiveData<LiveDataWrapper<SigninReponse>> signLiveData = new MediatorLiveData<>();
-        SigninRequest request = new SigninRequest(uid, channel,firstName, lastName, email, null);
+        SigninRequest request = new SigninRequest(uid, channel, firstName, lastName, email, null);
         signLiveData.setValue(LiveDataWrapper.<SigninReponse>loading(null));
         Disposable disposable = apiService.signinWithThird(request)
                 .flatMap(new ResultDataParse<SigninReponse>())

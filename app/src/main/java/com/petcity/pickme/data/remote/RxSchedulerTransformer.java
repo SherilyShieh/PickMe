@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * @ClassName RxSchedulerTransformer
- * @Description TODO
+ * @Description RxSchedulerTransformer
  * @Author sherily
  * @Date 9/01/21 8:32 PM
  * @Version 1.0

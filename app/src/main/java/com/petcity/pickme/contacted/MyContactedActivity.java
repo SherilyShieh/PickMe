@@ -55,7 +55,7 @@ public class MyContactedActivity extends BaseActivity<ActivityMyContactedBinding
     @Override
     protected void init(Bundle savedInstanceState) {
         mBinding.setViewModel(mViewModel);
-        LinearDividerItemDecoration divider = new LinearDividerItemDecoration(MyContactedActivity.this,  LinearLayoutManager.VERTICAL);
+        LinearDividerItemDecoration divider = new LinearDividerItemDecoration(MyContactedActivity.this, LinearLayoutManager.VERTICAL);
         divider.setShowLastDivider(true);
         divider.setDrawable(ContextCompat.getColor(MyContactedActivity.this, R.color.white12), 1);
         mBinding.recyclerView.addItemDecoration(divider);
@@ -98,7 +98,7 @@ public class MyContactedActivity extends BaseActivity<ActivityMyContactedBinding
         mViewModel.delete.observe(this, new Observer<ContactedResponse>() {
             @Override
             public void onChanged(@Nullable ContactedResponse aResponse) {
-                if (deleteDialog == null){
+                if (deleteDialog == null) {
                     deleteDialog = new CommonDialogSimple.Builder()
                             .setTitle("Are you sure to remove the current record?")
                             .showAction2(false)

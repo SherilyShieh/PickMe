@@ -13,7 +13,7 @@ import com.petcity.pickme.R;
 
 /**
  * @ClassName LoadingDialog
- * @Description TODO
+ * @Description LoadingDialog
  * @Author sherily
  * @Date 16/01/21 11:13 PM
  * @Version 1.0

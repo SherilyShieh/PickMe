@@ -22,26 +22,26 @@ import java.util.List;
 
 /**
  * @ClassName MyContactedAdapter
- * @Description TODO
+ * @Description MyContactedAdapter
  * @Author sherily
  * @Date 22/01/21 8:42 PM
  * @Version 1.0
  */
-public class MyContactedAdapter extends RecyclerView.Adapter<MyContactedAdapter.ViewHolder>{
+public class MyContactedAdapter extends RecyclerView.Adapter<MyContactedAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<ContactedResponse> datas;
     private Object mEventObject;
 
-    public void refresh(List<ContactedResponse> data){
-        if (null != datas){
+    public void refresh(List<ContactedResponse> data) {
+        if (null != datas) {
             datas.clear();
         }
         this.datas = data;
         notifyDataSetChanged();
     }
 
-    public void loadMore(List<ContactedResponse> data){
+    public void loadMore(List<ContactedResponse> data) {
         this.datas.addAll(data);
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class MyContactedAdapter extends RecyclerView.Adapter<MyContactedAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (null == inflater )
+        if (null == inflater)
             inflater = LayoutInflater.from(parent.getContext());
         return new MyContactedAdapter.ViewHolder(DataBindingUtil.inflate(inflater, R.layout.my_contacted_item, parent, false));
     }
@@ -71,12 +71,13 @@ public class MyContactedAdapter extends RecyclerView.Adapter<MyContactedAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private MyContactedItemBinding binding;
+
         public ViewHolder(@NonNull ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = (MyContactedItemBinding) binding;
         }
 
-        public void bind(Object mEventHandler, ContactedResponse model){
+        public void bind(Object mEventHandler, ContactedResponse model) {
             binding.setViewModel((MyContactedViewModel) mEventHandler);
             binding.setModel(model);
             ShapeAppearanceModel shape = ShapeAppearanceModel.builder().setAllCornerSizes(ShapeAppearanceModel.PILL).build();

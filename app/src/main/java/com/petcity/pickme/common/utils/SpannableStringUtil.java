@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 /**
  * @ClassName SpannableStringUtil
- * @Description TODO
+ * @Description SpannableStringUtil
  * @Author sherily
  * @Date 17/01/21 3:24 PM
  * @Version 1.0
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class SpannableStringUtil {
 
     public static SpannableStringBuilder matcherSearchText(int color, float textSize, String text, String keyword, TextView view) {
-        if ( textSize == 0.0f )
+        if (textSize == 0.0f)
             textSize = 14f;
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, view.getResources().getDisplayMetrics());
         SpannableStringBuilder ss = new SpannableStringBuilder(text);
@@ -35,7 +35,7 @@ public class SpannableStringUtil {
             int start = matcher.start();
             int end = matcher.end();
             ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ss.setSpan(new AbsoluteSizeSpan(size), start , end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new AbsoluteSizeSpan(size), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return ss;
     }

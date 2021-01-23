@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 /**
  * @ClassName CommonDialog
- * @Description TODO
+ * @Description CommonDialog
  * @Author sherily
  * @Date 13/01/21 7:03 PM
  * @Version 1.0
@@ -52,6 +52,7 @@ public class CommonDialog extends DialogFragment {
         void onClick(View v, String str);
 
     }
+
     @SuppressLint("ValidFragment")
     private CommonDialog() {
     }
@@ -81,7 +82,7 @@ public class CommonDialog extends DialogFragment {
     }
 
     public SpannableStringBuilder matcherSearchText(int color, float textSize, String text, String keyword) {
-        if ( textSize == 0.0f )
+        if (textSize == 0.0f)
             textSize = 14f;
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, getResources().getDisplayMetrics());
         SpannableStringBuilder ss = new SpannableStringBuilder(text);
@@ -91,23 +92,24 @@ public class CommonDialog extends DialogFragment {
             int start = matcher.start();
             int end = matcher.end();
             ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ss.setSpan(new AbsoluteSizeSpan(size), start , end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new AbsoluteSizeSpan(size), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return ss;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.common_dialog_layout,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.common_dialog_layout, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        if (null != getArguments()){
+        if (null != getArguments()) {
             mParam = getArguments().getParcelable(KEY_PARAM);
             binding.title.setVisibility(mParam.showTitle ? View.VISIBLE : View.GONE);
             binding.title.setText(mParam.title);
-            binding.content.setTextColor( ContextCompat.getColor(binding.content.getContext(), mParam.contentColor));
+            binding.content.setTextColor(ContextCompat.getColor(binding.content.getContext(), mParam.contentColor));
             if (!TextUtils.isEmpty(mParam.keyword)) {
-                binding.content.setText( matcherSearchText(mParam.keyColor,mParam.keySize,mParam.content,mParam.keyword));
+                binding.content.setText(matcherSearchText(mParam.keyColor, mParam.keySize, mParam.content, mParam.keyword));
 
             } else {
                 binding.content.setText(mParam.content);
@@ -115,10 +117,10 @@ public class CommonDialog extends DialogFragment {
             binding.content.setGravity(mParam.contentGravity);
             binding.edit.setHint(mParam.editPlaceholder);
             binding.buttonCancel.setText(mParam.cancelStr);
-            binding.buttonCancel.setTextColor( ContextCompat.getColor(binding.buttonCancel.getContext(), mParam.cancelColor));
+            binding.buttonCancel.setTextColor(ContextCompat.getColor(binding.buttonCancel.getContext(), mParam.cancelColor));
             binding.buttonCancel.setVisibility(mParam.showCancel ? View.VISIBLE : View.GONE);
             binding.buttonConfirm.setText(mParam.confirmStr);
-            binding.buttonConfirm.setTextColor(ContextCompat.getColor(binding.buttonConfirm.getContext(),mParam.confirmColor));
+            binding.buttonConfirm.setTextColor(ContextCompat.getColor(binding.buttonConfirm.getContext(), mParam.confirmColor));
             binding.buttonConfirm.setVisibility(mParam.showConfirm ? View.VISIBLE : View.GONE);
             binding.editFl.setVisibility(mParam.showEditFl ? View.VISIBLE : View.GONE);
         }
@@ -139,7 +141,7 @@ public class CommonDialog extends DialogFragment {
         return binding.getRoot();
     }
 
-    static CommonDialog newInstance(DialogParam param){
+    static CommonDialog newInstance(DialogParam param) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_PARAM, param);
         CommonDialog fragment = new CommonDialog();
@@ -158,78 +160,80 @@ public class CommonDialog extends DialogFragment {
             mParam = new DialogParam();
         }
 
-        public Builder setTitle(String title){
+        public Builder setTitle(String title) {
             mParam.title = title;
             return this;
         }
 
-        public Builder showTitle(boolean show){
+        public Builder showTitle(boolean show) {
             mParam.showTitle = show;
             return this;
         }
 
-        public Builder setContent(String content){
+        public Builder setContent(String content) {
             mParam.content = content;
             return this;
         }
 
-        public Builder setPlaceHolder(String content){
+        public Builder setPlaceHolder(String content) {
             mParam.editPlaceholder = content;
             return this;
         }
 
-        public Builder setCancelBtn(String text, View.OnClickListener listener){
+        public Builder setCancelBtn(String text, View.OnClickListener listener) {
             mCancelListener = listener;
             mParam.cancelStr = text;
             return this;
         }
 
-        public Builder setCancelColor(@ColorRes int res){
+        public Builder setCancelColor(@ColorRes int res) {
             mParam.cancelColor = res;
             return this;
         }
 
-        public Builder showCancel(boolean show){
+        public Builder showCancel(boolean show) {
             mParam.showCancel = show;
             return this;
         }
-        public Builder setConfirmBtn(String text, OnClickListener listener){
+
+        public Builder setConfirmBtn(String text, OnClickListener listener) {
             mConfirmListener = listener;
             mParam.confirmStr = text;
             return this;
         }
 
-        public Builder setConfirmColor(@ColorRes int res){
+        public Builder setConfirmColor(@ColorRes int res) {
             mParam.confirmColor = res;
             return this;
         }
 
-        public Builder showConfim(boolean show){
+        public Builder showConfim(boolean show) {
             mParam.showConfirm = show;
             return this;
         }
 
-        public Builder showEdit(boolean show){
+        public Builder showEdit(boolean show) {
             mParam.showEditFl = show;
             return this;
         }
 
-        public Builder setKey(String keyWord,int keyColor,float keySize){
+        public Builder setKey(String keyWord, int keyColor, float keySize) {
             mParam.keyword = keyWord;
             mParam.keyColor = keyColor;
             mParam.keySize = keySize;
             return this;
         }
 
-        public Builder setContentGravity(int gravity){
+        public Builder setContentGravity(int gravity) {
             mParam.contentGravity = gravity;
             return this;
         }
 
-        public Builder setContentColor(int color){
+        public Builder setContentColor(int color) {
             mParam.contentColor = color;
             return this;
         }
+
         public CommonDialog create() {
             CommonDialog fragment = newInstance(mParam);
             fragment.setmCancelListener(mCancelListener);
@@ -284,6 +288,7 @@ public class CommonDialog extends DialogFragment {
             contentGravity = in.readInt();
             contentColor = in.readInt();
         }
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(title);
@@ -291,12 +296,12 @@ public class CommonDialog extends DialogFragment {
             dest.writeString(content);
             dest.writeString(editPlaceholder);
             dest.writeString(cancelStr);
-            dest.writeByte((byte)(showCancel ? 1 : 0));
+            dest.writeByte((byte) (showCancel ? 1 : 0));
             dest.writeInt(cancelColor);
             dest.writeString(confirmStr);
-            dest.writeByte((byte)(showConfirm ? 1 : 0));
+            dest.writeByte((byte) (showConfirm ? 1 : 0));
             dest.writeInt(confirmColor);
-            dest.writeByte((byte)(showEditFl ? 1 : 0));
+            dest.writeByte((byte) (showEditFl ? 1 : 0));
             dest.writeString(keyword);
             dest.writeInt(keyColor);
             dest.writeFloat(keySize);

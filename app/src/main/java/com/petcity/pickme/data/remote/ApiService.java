@@ -11,18 +11,23 @@ import com.petcity.pickme.data.response.ListContactedResponse;
 import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.data.response.User;
 
+import java.util.Map;
+
 import io.reactivex.rxjava3.core.Flowable;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
  * @ClassName ApiService
- * @Description TODO
+ * @Description ApiService
  * @Author sherily
  * @Date 6/01/21 11:13 PM
  * @Version 1.0
@@ -60,14 +65,14 @@ public interface ApiService {
                                                              @Query("region") String region,
                                                              @Query("district") String district);
 
-//    @DELETE("api/v1/deleteMyAds")
-    @HTTP(method = "DELETE",path = "api/v1/deleteMyAds",hasBody = true)
+    //    @DELETE("api/v1/deleteMyAds")
+    @HTTP(method = "DELETE", path = "api/v1/deleteMyAds", hasBody = true)
     Flowable<ResultWrapper<CommonResponse>> deleteMyAds(@Body CommonRequest request);
 
     @GET("api/v1/getMyAds")
     Flowable<ResultWrapper<ListAdvertiseResponse>> getMyAds(@Query("index") int index,
-                                                             @Query("page_size") int pageSize,
-                                                             @Query("user_id") int user_id);
+                                                            @Query("page_size") int pageSize,
+                                                            @Query("user_id") int user_id);
 
     @PUT("api/v1/addContacted")
     Flowable<ResultWrapper<CommonResponse>> addContacted(@Body CommonRequest request);
@@ -76,7 +81,12 @@ public interface ApiService {
     Flowable<ResultWrapper<ListContactedResponse>> getAllContacted(@Query("index") int index,
                                                                    @Query("page_size") int pageSize,
                                                                    @Query("user_id") int user_id);
-//    @DELETE("api/v1/deleteContacted")
-    @HTTP(method = "DELETE",path = "api/v1/deleteContacted",hasBody = true)
+
+    //    @DELETE("api/v1/deleteContacted")
+    @HTTP(method = "DELETE", path = "api/v1/deleteContacted", hasBody = true)
     Flowable<ResultWrapper<CommonResponse>> deleteContacted(@Body CommonRequest request);
+
+    @Multipart
+    @POST("api/v1/saveAvatar")
+    Flowable<ResultWrapper<CommonResponse>> saveAvatar(@PartMap Map<String, RequestBody> multipartParams);
 }

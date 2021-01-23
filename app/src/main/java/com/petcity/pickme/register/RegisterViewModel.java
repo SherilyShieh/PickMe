@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * @ClassName RegisterViewModel
- * @Description TODO
+ * @Description RegisterViewModel
  * @Author sherily
  * @Date 10/01/21 1:15 AM
  * @Version 1.0
@@ -45,7 +45,7 @@ public class RegisterViewModel extends BaseViewModel {
 
     }
 
-    public LiveData<LiveDataWrapper<SigninReponse>> register(String uid,String channel, String firstName, String lastName, String email, String password) {
+    public LiveData<LiveDataWrapper<SigninReponse>> register(String uid, String channel, String firstName, String lastName, String email, String password) {
         final MediatorLiveData<LiveDataWrapper<SigninReponse>> registerLiveData = new MediatorLiveData<>();
         SigninRequest request = new SigninRequest(uid, channel, firstName, lastName, email, password);
         registerLiveData.setValue(LiveDataWrapper.<SigninReponse>loading(null));

@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * @ClassName UpdatePwdDialog
- * @Description TODO
+ * @Description UpdatePwdDialog
  * @Author sherily
  * @Date 17/01/21 6:05 PM
  * @Version 1.0
@@ -89,10 +89,11 @@ public class UpdateEmailDialog extends DialogFragment {
 //        params.windowAnimations = R.style.bottomSheet_animation;
         getDialog().getWindow().setAttributes(params);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_email,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_email, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        setWidth();
 //        binding.emailTxt.setHint(PreferenceManager.getInstance().getCurrentUserInfo().getEmail());
@@ -135,6 +136,7 @@ public class UpdateEmailDialog extends DialogFragment {
         }
         return true;
     }
+
     private TextWatcher txtWatcher(TextInputLayout textLayout) {
         return new TextWatcher() {
 
@@ -171,7 +173,7 @@ public class UpdateEmailDialog extends DialogFragment {
         this.mConfirmListener = mConfirmListener;
     }
 
-    static UpdateEmailDialog newInstance(){
+    static UpdateEmailDialog newInstance() {
         UpdateEmailDialog fragment = new UpdateEmailDialog();
         return fragment;
     }
@@ -184,12 +186,13 @@ public class UpdateEmailDialog extends DialogFragment {
 
         public Builder() {
         }
-        public Builder setOnCancelClickListener(View.OnClickListener listener){
+
+        public Builder setOnCancelClickListener(View.OnClickListener listener) {
             mCancelListener = listener;
             return this;
         }
 
-        public Builder setOnConfirmClickListener(OnClickListener listener){
+        public Builder setOnConfirmClickListener(OnClickListener listener) {
             mConfirmListener = listener;
             return this;
         }

@@ -12,7 +12,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
  * @ClassName PickMeAppComponent
- * @Description TODO
+ * @Description PickMeAppComponent
  * @Author sherily
  * @Date 6/01/21 2:27 PM
  * @Version 1.0

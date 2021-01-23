@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @ClassName DividerItemDecoration
- * @Description TODO
+ * @Description DividerItemDecoration
  * @Author sherily
  * @Date 22/01/21 7:25 PM
  * @Version 1.0
@@ -99,7 +99,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)  {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         if (mOrientation == VERTICAL_LIST) {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         } else {

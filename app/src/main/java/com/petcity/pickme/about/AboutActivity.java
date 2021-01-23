@@ -1,6 +1,5 @@
 package com.petcity.pickme.about;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.View;
 import com.petcity.pickme.R;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.databinding.ActivityAboutBinding;
-import com.petcity.pickme.databinding.ActivityAboutBindingImpl;
 
 public class AboutActivity extends BaseActivity<ActivityAboutBinding, AboutViewModel> {
 

@@ -3,7 +3,6 @@ package com.petcity.pickme.base;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -11,18 +10,14 @@ import android.view.Window;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.petcity.pickme.R;
-import com.petcity.pickme.base.BaseViewModel;
-import com.petcity.pickme.base.di.ViewModelFactory;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.StatusBarUtils;
 
@@ -32,7 +27,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 /**
  * @ClassName BaseActivity
- * @Description TODO
+ * @Description BaseActivity
  * @Author sherily
  * @Date 6/01/21 3:29 PM
  * @Version 1.0

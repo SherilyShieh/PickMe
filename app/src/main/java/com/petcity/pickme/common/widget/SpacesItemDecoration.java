@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @ClassName SpacesItemDecoration
- * @Description TODO
+ * @Description SpacesItemDecoration
  * @Author sherily
  * @Date 15/01/21 2:05 PM
  * @Version 1.0

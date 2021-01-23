@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * @ClassName MyContactedViewModel
- * @Description TODO
+ * @Description MyContactedViewModel
  * @Author sherily
  * @Date 13/01/21 4:03 PM
  * @Version 1.0
@@ -93,11 +93,11 @@ public class MyContactedViewModel extends BaseViewModel {
 
     }
 
-    public void getAds(int index, int pageSize,  boolean isRefresh) {
+    public void getAds(int index, int pageSize, boolean isRefresh) {
 
         data.setValue(LiveDataWrapper.<ListContactedResponse>loading(null));
         User user = preferenceManager.getCurrentUserInfo();
-        Disposable disposable = apiService.getAllContacted(index, pageSize, user.getUserId() )
+        Disposable disposable = apiService.getAllContacted(index, pageSize, user.getUserId())
                 .flatMap(new ResultDataParse<ListContactedResponse>())
                 .compose(new RxSchedulerTransformer<ListContactedResponse>())
                 .subscribe(

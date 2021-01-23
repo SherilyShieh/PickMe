@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName User
- * @Description TODO
+ * @Description User
  * @Author sherily
  * @Date 15/01/21 4:39 PM
  * @Version 1.0
@@ -69,13 +69,14 @@ public class User {
     }
 
     public String formatAddress() {
-        if (TextUtils.isEmpty(detail_address) &&  TextUtils.isEmpty(district) && TextUtils.isEmpty(region)) {
+        if (TextUtils.isEmpty(detail_address) && TextUtils.isEmpty(district) && TextUtils.isEmpty(region)) {
             return "Unknow";
         }
         return (TextUtils.isEmpty(detail_address) ? "" : detail_address) + ", "
-                + (TextUtils.isEmpty(district) ? "" : district)  + ", "
-                + (TextUtils.isEmpty(region) ? "" : region) ;
+                + (TextUtils.isEmpty(district) ? "" : district) + ", "
+                + (TextUtils.isEmpty(region) ? "" : region);
     }
+
     public int getUserId() {
         return user_id;
     }

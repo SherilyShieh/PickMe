@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 
 /**
  * @ClassName CommonDialogSimple
- * @Description TODO
+ * @Description CommonDialogSimple
  * @Author sherily
  * @Date 17/01/21 4:32 PM
  * @Version 1.0
@@ -52,7 +52,7 @@ public class SearchDialog extends DialogFragment {
     View.OnClickListener mCancelListener;
     OnSearchListener mOnSearchListener;
     View.OnClickListener mAction2Listener;
-    
+
     public interface OnSearchListener {
         void onSearch(String region, String district, String breed);
     }
@@ -83,7 +83,7 @@ public class SearchDialog extends DialogFragment {
 
 
     public SpannableStringBuilder matcherSearchText(int color, float textSize, String text, String keyword) {
-        if ( textSize == 0.0f )
+        if (textSize == 0.0f)
             textSize = 14f;
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, getResources().getDisplayMetrics());
         SpannableStringBuilder ss = new SpannableStringBuilder(text);
@@ -93,18 +93,20 @@ public class SearchDialog extends DialogFragment {
             int start = matcher.start();
             int end = matcher.end();
             ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ss.setSpan(new AbsoluteSizeSpan(size), start , end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new AbsoluteSizeSpan(size), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return ss;
     }
+
     @LayoutRes
     public int getAdapterItemLayout() {
         return R.layout.cat_exposed_dropdown_popup_item;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.search_dialog_layout,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.search_dialog_layout, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         binding.breed.setDropDownBackgroundResource(R.drawable.white_bg);
@@ -181,7 +183,7 @@ public class SearchDialog extends DialogFragment {
         return binding.getRoot();
     }
 
-    static SearchDialog newInstance(){
+    static SearchDialog newInstance() {
         SearchDialog fragment = new SearchDialog();
         return fragment;
     }
@@ -199,17 +201,17 @@ public class SearchDialog extends DialogFragment {
         }
 
 
-        public Builder setOnCancelListener(View.OnClickListener listener){
+        public Builder setOnCancelListener(View.OnClickListener listener) {
             mCancelListener = listener;
             return this;
         }
 
-        public Builder setOnSearchListener(OnSearchListener listener){
+        public Builder setOnSearchListener(OnSearchListener listener) {
             mOnSearchListener = listener;
             return this;
         }
 
-        public Builder setOnClearListener(View.OnClickListener listener){
+        public Builder setOnClearListener(View.OnClickListener listener) {
             mAction2Listener = listener;
             return this;
         }

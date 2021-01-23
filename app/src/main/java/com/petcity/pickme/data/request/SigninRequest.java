@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName SigninRequest
- * @Description TODO
+ * @Description SigninRequest
  * @Author sherily
  * @Date 9/01/21 1:24 PM
  * @Version 1.0

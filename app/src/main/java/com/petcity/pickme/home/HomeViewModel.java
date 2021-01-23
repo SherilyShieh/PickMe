@@ -1,8 +1,6 @@
 package com.petcity.pickme.home;
 
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -16,16 +14,12 @@ import com.petcity.pickme.data.remote.ApiService;
 import com.petcity.pickme.data.remote.ResultDataParse;
 import com.petcity.pickme.data.remote.RxSchedulerTransformer;
 import com.petcity.pickme.data.request.CommonRequest;
-import com.petcity.pickme.data.request.CreateAdRequest;
-import com.petcity.pickme.data.request.SigninRequest;
 import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.ListAdvertiseResponse;
-import com.petcity.pickme.data.response.SigninReponse;
+
 import com.petcity.pickme.data.response.User;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 

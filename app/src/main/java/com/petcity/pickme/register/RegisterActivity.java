@@ -64,11 +64,12 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
     private void register(final FirebaseUser currentUser, String channel) {
         String uid = currentUser.getUid();
         String firstName = mBinding.fnTxt.getText().toString().trim();
-        String lastName = mBinding.lnTxt.getText().toString().trim();;
+        String lastName = mBinding.lnTxt.getText().toString().trim();
+        ;
         final String email = currentUser.getEmail();
         final String password = mBinding.pwdTxt.getText().toString().trim();
         LoadingDialog loadingDialog = new LoadingDialog();
-        mViewModel.register(uid, channel, firstName, lastName, email, password )
+        mViewModel.register(uid, channel, firstName, lastName, email, password)
                 .observe(RegisterActivity.this, new Observer<LiveDataWrapper<SigninReponse>>() {
 
                     @Override
@@ -90,6 +91,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                     }
                 });
     }
+
     private void goHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -97,6 +99,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
         finish();
     }
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
 
@@ -123,6 +126,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                 });
         // [END create_user_with_email]
     }
+
     private void sendEmailVerification() {
         // Send verification email
         final FirebaseUser user = mAuth.getCurrentUser();

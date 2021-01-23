@@ -3,21 +3,21 @@ package com.petcity.pickme.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import com.petcity.pickme.BuildConfig;
-import com.petcity.pickme.base.ActivityScope;
 import com.petcity.pickme.base.BaseActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 /**
  * @ClassName CameraTools
@@ -34,36 +34,33 @@ public class CameraTools {
     private String filePath = BuildConfig.PICTURE_PATH;
     private File tempFile;
 
-    public Context getmContext() {
-        return mContext;
-    }
-
-    public void setmContext(Context mContext) {
+    public CameraTools(Context mContext) {
         this.mContext = mContext;
     }
 
-    public CameraTools(Context mContext){
-        this.mContext = mContext;
-    }
-
-    public void takePhoto(){
+    public void takePhoto() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(mContext.getPackageManager()) != null) {
-            // 设置系统相机拍照后的输出路径
-            // 创建临时文件
             tempFile = createTempFile(filePath);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                String authority = mContext.getPackageName() + ".fileprovider"; //【清单文件中provider的authorities属性的值】
+                uri = FileProvider.getUriForFile(mContext, authority, tempFile);
+            } else {
+                uri = Uri.fromFile(tempFile);
+            }
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             if (mContext instanceof BaseActivity)
-                ((BaseActivity) mContext).startActivityForResult(cameraIntent, CODE_TAKE_PHOTO,null);
+                ((BaseActivity) mContext).startActivityForResult(cameraIntent, CODE_TAKE_PHOTO);
         } else {
-            Toast.makeText(mContext.getApplicationContext(), "没有可用的相机", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.getApplicationContext(), "No Camera!", Toast.LENGTH_SHORT).show();
         }
     }
 
     public File createTempFile(String filePath) {
         String timeStamp = new SimpleDateFormat("MMddHHmmss", Locale.CHINA).format(new Date());
-        String externalStorageState = Environment.getExternalStorageState();
-        File dir = new File(Environment.getExternalStorageDirectory() + filePath);
+        File externalStorageState = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? mContext.getFilesDir() : Environment.getExternalStorageDirectory();
+        File dir = new File(externalStorageState + filePath);
         if (externalStorageState.equals(Environment.MEDIA_MOUNTED)) {
             if (!dir.exists()) {
                 dir.mkdirs();
@@ -88,10 +85,10 @@ public class CameraTools {
         intent.putExtra("return-data", false);
         Uri uri = Uri.fromFile(tempFile);
         if (BuildConfig.DEBUG)
-            Log.i(TAG, "crop: "+uri.toString());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+            Log.i(TAG, "crop: " + uri.toString());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (mContext instanceof BaseActivity)
-            ((BaseActivity) mContext).startActivityForResult(intent, CODE_CUT,null);
+            ((BaseActivity) mContext).startActivityForResult(intent, CODE_CUT, null);
     }
 
     public File getTempFile() {

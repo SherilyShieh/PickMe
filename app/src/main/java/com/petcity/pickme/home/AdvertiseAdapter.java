@@ -1,8 +1,6 @@
 package com.petcity.pickme.home;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -19,7 +17,7 @@ import java.util.List;
 
 /**
  * @ClassName AdvertiseAdapter
- * @Description TODO
+ * @Description AdvertiseAdapter
  * @Author sherily
  * @Date 15/01/21 4:04 PM
  * @Version 1.0
@@ -30,15 +28,15 @@ public class AdvertiseAdapter extends RecyclerView.Adapter<AdvertiseAdapter.Item
     private List<AdvertiseResponse> datas;
     private Object mEventObject;
 
-    public void refresh(List<AdvertiseResponse> data){
-        if (null != datas){
+    public void refresh(List<AdvertiseResponse> data) {
+        if (null != datas) {
             datas.clear();
         }
         this.datas = data;
         notifyDataSetChanged();
     }
 
-    public void loadMore(List<AdvertiseResponse> data){
+    public void loadMore(List<AdvertiseResponse> data) {
         this.datas.addAll(data);
         notifyDataSetChanged();
     }
@@ -51,7 +49,7 @@ public class AdvertiseAdapter extends RecyclerView.Adapter<AdvertiseAdapter.Item
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (null == inflater )
+        if (null == inflater)
             inflater = LayoutInflater.from(parent.getContext());
         return new ItemViewHolder(DataBindingUtil.inflate(inflater, R.layout.home_ad_item, parent, false));
     }
@@ -68,12 +66,13 @@ public class AdvertiseAdapter extends RecyclerView.Adapter<AdvertiseAdapter.Item
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private HomeAdItemBinding binding;
+
         public ItemViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = (HomeAdItemBinding) binding;
         }
 
-        public void bind(Object mEventHandler, AdvertiseResponse model){
+        public void bind(Object mEventHandler, AdvertiseResponse model) {
             binding.setViewModel((HomeViewModel) mEventHandler);
             binding.setModel(model);
             ShapeAppearanceModel shape = ShapeAppearanceModel.builder().setAllCornerSizes(ShapeAppearanceModel.PILL).build();

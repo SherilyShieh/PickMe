@@ -2,7 +2,7 @@ package com.petcity.pickme.data.remote;
 
 /**
  * @ClassName ResultException
- * @Description TODO
+ * @Description ResultException
  * @Author sherily
  * @Date 9/01/21 1:17 PM
  * @Version 1.0

@@ -4,7 +4,7 @@ import com.petcity.pickme.BuildConfig;
 
 /**
  * @ClassName Constants
- * @Description TODO
+ * @Description Constants
  * @Author sherily
  * @Date 6/01/21 2:35 PM
  * @Version 1.0

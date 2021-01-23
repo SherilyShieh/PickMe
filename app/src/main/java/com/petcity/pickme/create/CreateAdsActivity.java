@@ -64,7 +64,6 @@ import java.util.function.BinaryOperator;
 public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, CreateAdsViewModel> implements View.OnClickListener {
 
 
-
     private long today;
     private long nextMonth;
     private long janThisYear;
@@ -104,6 +103,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         utc.clear();
         return utc;
     }
+
     private static int resolveOrThrow(Context context, @AttrRes int attributeResId) {
         TypedValue typedValue = new TypedValue();
         if (context.getTheme().resolveAttribute(attributeResId, typedValue, true)) {
@@ -111,6 +111,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         }
         throw new IllegalArgumentException(context.getResources().getResourceName(attributeResId));
     }
+
     private void initDatePicker() {
 
         today = MaterialDatePicker.todayInUtcMilliseconds();
@@ -133,6 +134,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         todayPair = new Pair<>(today, today);
         nextMonthPair = new Pair<>(nextMonth, nextMonth);
     }
+
     private void createCalendar() {
         initDatePicker();
         int dialogTheme = resolveOrThrow(this, R.attr.materialCalendarTheme);
@@ -156,10 +158,11 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         }
 
     }
+
     private void addCalendarListeners(MaterialDatePicker<?> materialCalendarPicker) {
         materialCalendarPicker.addOnPositiveButtonClickListener(
                 selection -> {
-                    selectDate = (Long)selection;
+                    selectDate = (Long) selection;
                     mBinding.date.setText(materialCalendarPicker.getHeaderText());
                     mBinding.date.clearFocus();
                 });
@@ -167,8 +170,6 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
             mBinding.date.clearFocus();
         });
     }
-
-
 
 
     private void showFrameworkTimepicker() {
@@ -229,7 +230,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         InputMethodManager imm = (InputMethodManager) mBinding.date.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
-            imm.hideSoftInputFromWindow(mBinding.date.getWindowToken(),0);
+            imm.hideSoftInputFromWindow(mBinding.date.getWindowToken(), 0);
         }
     }
 
@@ -243,14 +244,16 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
+
     @LayoutRes
     public int getAdapterItemLayout() {
         return R.layout.cat_exposed_dropdown_popup_item;
     }
+
     @Override
     protected void init(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        isUpdate = intent.getBooleanExtra("isUpdate", false );
+        isUpdate = intent.getBooleanExtra("isUpdate", false);
         if (isUpdate) {
             ad = new Gson().fromJson(intent.getStringExtra("ad"), AdvertiseResponse.class);
         }
@@ -305,7 +308,6 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         mBinding.price.addTextChangedListener(txtWatcher(mBinding.priceTl));
         mBinding.location.addTextChangedListener(txtWatcher(mBinding.locationTl));
         mBinding.description.addTextChangedListener(txtWatcher(mBinding.descriptionTl));
-
 
 
         mViewModel.create.observe(CreateAdsActivity.this, new Observer<LiveDataWrapper<AdvertiseResponse>>() {
@@ -379,6 +381,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     private TextWatcher txtWatcher(TextInputLayout textLayout) {
         return new TextWatcher() {
 
@@ -432,7 +435,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
             createRequest.setDogBreed(mBinding.breed.getText().toString().trim());
         }
         if (isValidDate = validate(mBinding.date, mBinding.dateTl, "Date can not be empty!")) {
-            createRequest.setDate(TimeUtils.stampToDate(selectDate+""));
+            createRequest.setDate(TimeUtils.stampToDate(selectDate + ""));
         }
         if (isValidST = validate(mBinding.startTime, mBinding.startTimeTl, "Start time can not be empty!")) {
             createRequest.setStartTime(mBinding.startTime.getText().toString().trim());
@@ -445,13 +448,13 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         }
         if (isValidLocation = validate(mBinding.location, mBinding.locationTl, "Location can not be empty!")) {
             String[] places = mBinding.location.getText().toString().trim().split(", ");
-            if (places.length >= 4 ) {
+            if (places.length >= 4) {
                 createRequest.setRegion(places[places.length - 2].trim());
                 createRequest.setDistrict(places[places.length - 3].trim());
             } else if (places.length >= 3) {
                 createRequest.setRegion(places[places.length - 2].trim());
                 createRequest.setDistrict("");
-            } else if (places.length >= 2){
+            } else if (places.length >= 2) {
                 createRequest.setRegion(places[places.length - 2].trim());
                 createRequest.setDistrict("");
             } else {
@@ -469,15 +472,15 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
             }
             mViewModel.updateAd(createRequest);
 
-        } else if (isValidBreed && isValidDate && isValidST && isValidDuration && isValidPrice && isValidDescription && isValidLocation){
+        } else if (isValidBreed && isValidDate && isValidST && isValidDuration && isValidPrice && isValidDescription && isValidLocation) {
             mViewModel.postAd(createRequest);
-        } else if  (!errorlist.isEmpty() && !errorlist.get(0).hasFocus()) {
+        } else if (!errorlist.isEmpty() && !errorlist.get(0).hasFocus()) {
             errorlist.get(0).requestFocus();
         }
 
 
-
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

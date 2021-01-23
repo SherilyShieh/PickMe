@@ -1,8 +1,6 @@
 package com.petcity.pickme.base;
 
-import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +13,7 @@ import com.petcity.pickme.common.widget.WRecyclerView;
 
 /**
  * @ClassName BindingEvent
- * @Description TODO
+ * @Description BindingEvent
  * @Author sherily
  * @Date 15/01/21 4:57 PM
  * @Version 1.0
@@ -23,7 +21,7 @@ import com.petcity.pickme.common.widget.WRecyclerView;
 public class BindingEvent {
 
     @BindingAdapter("glideUrl")
-    public static void setGlideUrl(final ImageView iv, String url){
+    public static void setGlideUrl(final ImageView iv, String url) {
         Glide.with(iv.getContext())
                 .load(url)
                 .centerCrop()
@@ -33,7 +31,7 @@ public class BindingEvent {
     }
 
     @BindingAdapter("glideUrlInt")
-    public static void setGlideUrlInt(final ImageView iv, int url){
+    public static void setGlideUrlInt(final ImageView iv, int url) {
         Glide.with(iv.getContext())
                 .load(url)
                 .centerCrop()
@@ -84,13 +82,14 @@ public class BindingEvent {
     }
 
     @BindingAdapter("enableFresh")
-    public static void enableFresh(final WRecyclerView rv, boolean isEnabled) { ;
+    public static void enableFresh(final WRecyclerView rv, boolean isEnabled) {
+        ;
         rv.setPullRefresh(isEnabled);
     }
 
     @BindingAdapter("onComplete")
     public static void onComplete(final WRecyclerView rv, boolean isComplete) {
-        if(rv.ismPullLoading() && isComplete){
+        if (rv.ismPullLoading() && isComplete) {
             rv.stopLoadMore();
         }
         rv.setPullRefresh(false);
@@ -98,7 +97,7 @@ public class BindingEvent {
 
     @BindingAdapter("onComplete")
     public static void onComplete(final SwipeRefreshLayout swipeRefreshLayout, boolean isComplete) {
-        if(swipeRefreshLayout.isRefreshing() && isComplete){
+        if (swipeRefreshLayout.isRefreshing() && isComplete) {
             swipeRefreshLayout.setRefreshing(false);
         }
     }

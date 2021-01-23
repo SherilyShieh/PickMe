@@ -1,6 +1,5 @@
 package com.petcity.pickme.base;
 
-import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
@@ -11,7 +10,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @ClassName BaseViewModel
- * @Description TODO
+ * @Description BaseViewModel
  * @Author sherily
  * @Date 6/01/21 3:31 PM
  * @Version 1.0

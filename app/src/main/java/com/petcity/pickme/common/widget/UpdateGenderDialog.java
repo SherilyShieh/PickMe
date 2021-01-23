@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * @ClassName UpdatePwdDialog
- * @Description TODO
+ * @Description UpdatePwdDialog
  * @Author sherily
  * @Date 17/01/21 6:05 PM
  * @Version 1.0
@@ -69,23 +69,24 @@ public class UpdateGenderDialog extends DialogFragment {
     }
 
     private String gender;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_gender,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_gender, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup Group, int Checkid) {
-                if (binding.female.isChecked()){
+                if (binding.female.isChecked()) {
                     binding.female.setChecked(true);
                     gender = "Female";
                 }
-                if (binding.male.isChecked()){
+                if (binding.male.isChecked()) {
                     binding.male.setChecked(true);
                     gender = "Male";
                 }
-                if (binding.x.isChecked()){
+                if (binding.x.isChecked()) {
                     binding.x.setChecked(true);
                     gender = "X";
                 }
@@ -113,8 +114,6 @@ public class UpdateGenderDialog extends DialogFragment {
     }
 
 
-
-
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
@@ -134,7 +133,7 @@ public class UpdateGenderDialog extends DialogFragment {
         this.mConfirmListener = mConfirmListener;
     }
 
-    static UpdateGenderDialog newInstance(){
+    static UpdateGenderDialog newInstance() {
         UpdateGenderDialog fragment = new UpdateGenderDialog();
         return fragment;
     }
@@ -147,12 +146,13 @@ public class UpdateGenderDialog extends DialogFragment {
 
         public Builder() {
         }
-        public Builder setOnCancelClickListener(View.OnClickListener listener){
+
+        public Builder setOnCancelClickListener(View.OnClickListener listener) {
             mCancelListener = listener;
             return this;
         }
 
-        public Builder setOnConfirmClickListener(OnClickListener listener){
+        public Builder setOnConfirmClickListener(OnClickListener listener) {
             mConfirmListener = listener;
             return this;
         }

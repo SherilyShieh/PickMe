@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.functions.Function;
 
 /**
  * @ClassName ResultDataParse
- * @Description TODO
+ * @Description ResultDataParse
  * @Author sherily
  * @Date 9/01/21 1:10 PM
  * @Version 1.0

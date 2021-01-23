@@ -15,7 +15,6 @@ import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.ListAdvertiseResponse;
 import com.petcity.pickme.data.response.User;
-import com.petcity.pickme.home.AdvertiseAdapter;
 
 import javax.inject.Inject;
 
@@ -24,7 +23,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * @ClassName MyAdsViewModel
- * @Description TODO
+ * @Description MyAdsViewModel
  * @Author sherily
  * @Date 13/01/21 4:00 PM
  * @Version 1.0
@@ -92,11 +91,11 @@ public class MyAdsViewModel extends BaseViewModel {
 
     }
 
-    public void getAds(int index, int pageSize,  boolean isRefresh) {
+    public void getAds(int index, int pageSize, boolean isRefresh) {
 
         data.setValue(LiveDataWrapper.<ListAdvertiseResponse>loading(null));
         User user = preferences.getCurrentUserInfo();
-        Disposable disposable = apiService.getMyAds(index, pageSize, user.getUserId() )
+        Disposable disposable = apiService.getMyAds(index, pageSize, user.getUserId())
                 .flatMap(new ResultDataParse<ListAdvertiseResponse>())
                 .compose(new RxSchedulerTransformer<ListAdvertiseResponse>())
                 .subscribe(

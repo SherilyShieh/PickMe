@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * @ClassName UpdatePwdDialog
- * @Description TODO
+ * @Description UpdatePwdDialog
  * @Author sherily
  * @Date 17/01/21 6:05 PM
  * @Version 1.0
@@ -62,7 +62,7 @@ public class UpdatePwdDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_password,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_update_password, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.pwdTxt.addTextChangedListener(txtWatcher(binding.password));
         binding.pwdConfirmTxt.addTextChangedListener(txtWatcher(binding.confirmPwd));
@@ -82,7 +82,8 @@ public class UpdatePwdDialog extends DialogFragment {
                 if (validatePwd && validatePwdConfirm) {
                     if (null != mConfirmListener)
                         mConfirmListener.onClick(v, binding.pwdTxt.getText().toString().trim());
-                }  if (!errorList.isEmpty() && !errorList.get(0).hasFocus()) {
+                }
+                if (!errorList.isEmpty() && !errorList.get(0).hasFocus()) {
                     errorList.get(0).requestFocus();
                 }
             }
@@ -117,6 +118,7 @@ public class UpdatePwdDialog extends DialogFragment {
             }
         };
     }
+
     private boolean validatePwd() {
         String pwd = binding.pwdTxt.getText().toString().trim();
         if (TextUtils.isEmpty(pwd)) {
@@ -156,7 +158,7 @@ public class UpdatePwdDialog extends DialogFragment {
         this.mConfirmListener = mConfirmListener;
     }
 
-    static UpdatePwdDialog newInstance(){
+    static UpdatePwdDialog newInstance() {
         UpdatePwdDialog fragment = new UpdatePwdDialog();
         return fragment;
     }
@@ -169,12 +171,13 @@ public class UpdatePwdDialog extends DialogFragment {
 
         public Builder() {
         }
-        public Builder setOnCancelClickListener(View.OnClickListener listener){
+
+        public Builder setOnCancelClickListener(View.OnClickListener listener) {
             mCancelListener = listener;
             return this;
         }
 
-        public Builder setOnConfirmClickListener(OnClickListener listener){
+        public Builder setOnConfirmClickListener(OnClickListener listener) {
             mConfirmListener = listener;
             return this;
         }

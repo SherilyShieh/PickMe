@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName CreateAdRequest
- * @Description TODO
+ * @Description CreateAdRequest
  * @Author sherily
  * @Date 16/01/21 4:10 PM
  * @Version 1.0
@@ -51,6 +51,7 @@ public class CreateAdRequest {
     public void setType(String type) {
         this.type = type;
     }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }

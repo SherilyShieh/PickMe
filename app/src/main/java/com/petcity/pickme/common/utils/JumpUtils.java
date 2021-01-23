@@ -6,7 +6,7 @@ import android.content.Intent;
 
 /**
  * @ClassName IntentUtils
- * @Description TODO
+ * @Description IntentUtils
  * @Author sherily
  * @Date 7/01/21 8:03 PM
  * @Version 1.0

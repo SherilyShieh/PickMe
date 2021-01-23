@@ -15,7 +15,6 @@ import com.petcity.pickme.R;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
-import com.petcity.pickme.common.widget.DividerItemDecoration;
 import com.petcity.pickme.common.widget.LinearDividerItemDecoration;
 import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.create.CreateAdsActivity;
@@ -29,6 +28,7 @@ public class MyAdsActivity extends BaseActivity<ActivityMyAdsBinding, MyAdsViewM
 
     private CommonDialogSimple deleteDialog;
     private LoadingDialog loadingDialog;
+
     @Override
     protected boolean isHide() {
         return true;
@@ -58,7 +58,7 @@ public class MyAdsActivity extends BaseActivity<ActivityMyAdsBinding, MyAdsViewM
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CreateAdsActivity.CREATE_OR_UPDATE_AD && resultCode == RESULT_OK ) {
+        if (requestCode == CreateAdsActivity.CREATE_OR_UPDATE_AD && resultCode == RESULT_OK) {
             mViewModel.loadData(true);
         }
     }
@@ -66,7 +66,7 @@ public class MyAdsActivity extends BaseActivity<ActivityMyAdsBinding, MyAdsViewM
     @Override
     protected void init(Bundle savedInstanceState) {
         mBinding.setViewModel(mViewModel);
-        LinearDividerItemDecoration divider = new LinearDividerItemDecoration(MyAdsActivity.this,  LinearLayoutManager.VERTICAL);
+        LinearDividerItemDecoration divider = new LinearDividerItemDecoration(MyAdsActivity.this, LinearLayoutManager.VERTICAL);
         divider.setShowLastDivider(true);
         divider.setDrawable(ContextCompat.getColor(MyAdsActivity.this, R.color.white12), 1);
         mBinding.recyclerView.addItemDecoration(divider);
@@ -85,7 +85,7 @@ public class MyAdsActivity extends BaseActivity<ActivityMyAdsBinding, MyAdsViewM
         mViewModel.delete.observe(this, new Observer<AdvertiseResponse>() {
             @Override
             public void onChanged(@Nullable AdvertiseResponse aResponse) {
-                if (deleteDialog == null){
+                if (deleteDialog == null) {
                     deleteDialog = new CommonDialogSimple.Builder()
                             .setTitle("Are you sure to remove the current ad?")
                             .showAction2(false)

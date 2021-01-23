@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @ClassName ListAdvertiseResponse
- * @Description TODO
+ * @Description ListAdvertiseResponse
  * @Author sherily
  * @Date 15/01/21 6:54 PM
  * @Version 1.0

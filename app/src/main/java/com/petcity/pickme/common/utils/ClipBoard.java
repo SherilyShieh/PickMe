@@ -8,7 +8,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * @ClassName ClipBoard
- * @Description TODO
+ * @Description ClipBoard
  * @Author sherily
  * @Date 22/01/21 7:08 PM
  * @Version 1.0

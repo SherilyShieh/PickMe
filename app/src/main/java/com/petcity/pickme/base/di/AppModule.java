@@ -1,7 +1,6 @@
 package com.petcity.pickme.base.di;
 
 
-
 import com.petcity.pickme.base.PickMeApp;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.data.remote.RestModule;
@@ -13,7 +12,7 @@ import dagger.Provides;
 
 /**
  * @ClassName PickMeAppModule
- * @Description TODO
+ * @Description PickMeAppModule
  * @Author sherily
  * @Date 6/01/21 2:29 PM
  * @Version 1.0

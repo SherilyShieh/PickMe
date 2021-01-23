@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * @ClassName CreateAdsViewModel
- * @Description TODO
+ * @Description CreateAdsViewModel
  * @Author sherily
  * @Date 16/01/21 12:11 AM
  * @Version 1.0

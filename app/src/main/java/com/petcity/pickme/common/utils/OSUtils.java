@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * @ClassName OSUtils
- * @Description TODO
+ * @Description OSUtils
  * @Author sherily
  * @Date 7/01/21 6:56 PM
  * @Version 1.0

@@ -95,7 +95,7 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
         boolean validatePwd = validatePwd();
         if (validateEmail && validatePwd) {
             signin(mBinding.emailTxt.getText().toString().trim(), mBinding.pwdTxt.getText().toString().trim());
-        } else if (!errorList.isEmpty() && !errorList.get(0).hasFocus()){
+        } else if (!errorList.isEmpty() && !errorList.get(0).hasFocus()) {
             errorList.get(0).requestFocus();
         }
     }
@@ -139,6 +139,7 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
 //        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
         finish();
     }
+
     private void resetPasswordWithEmial(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -152,6 +153,7 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
                     }
                 });
     }
+
     private void signin(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -174,6 +176,7 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
                     }
                 });
     }
+
     private void updatePassword(String uid, String password) {
         LoadingDialog loadingDialog = new LoadingDialog();
         mViewModel.updatePassword(uid, password).observe(this, new Observer<LiveDataWrapper<User>>() {
@@ -230,6 +233,7 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
         }
         verifyEmialDialog.show(getSupportFragmentManager(), "verify");
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

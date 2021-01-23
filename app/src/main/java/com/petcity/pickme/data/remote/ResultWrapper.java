@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName ResultWrapper
- * @Description TODO
+ * @Description ResultWrapper
  * @Author sherily
  * @Date 9/01/21 1:06 PM
  * @Version 1.0

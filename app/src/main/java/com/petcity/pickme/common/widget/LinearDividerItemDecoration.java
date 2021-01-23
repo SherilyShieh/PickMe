@@ -18,7 +18,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 
 /**
  * @ClassName LinearDividerItemDecoration
- * @Description TODO
+ * @Description LinearDividerItemDecoration
  * @Author sherily
  * @Date 22/01/21 10:12 PM
  * @Version 1.0
@@ -82,7 +82,7 @@ public class LinearDividerItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 设置分割线drawable
      *
-     * @param dividerColor 分割线颜色
+     * @param dividerColor  分割线颜色
      * @param dividerHeight 分割线高度，单位dp
      */
     public void setDrawable(@ColorInt int dividerColor, int dividerHeight) {

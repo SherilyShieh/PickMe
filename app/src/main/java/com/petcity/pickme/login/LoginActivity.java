@@ -103,6 +103,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 //        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
         finish();
     }
+
     private void siginWithThird(final FirebaseUser currentUser, String channel) {
         String uid = currentUser.getUid();
         String name = currentUser.getDisplayName();

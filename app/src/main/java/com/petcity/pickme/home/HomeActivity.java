@@ -2,10 +2,7 @@ package com.petcity.pickme.home;
 
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +28,6 @@ import com.petcity.pickme.ads.MyAdsActivity;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.utils.ClipBoard;
-import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.StatusBarUtils;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
 import com.petcity.pickme.common.widget.LoadingDialog;
@@ -41,7 +37,6 @@ import com.petcity.pickme.contacted.MyContactedActivity;
 import com.petcity.pickme.create.CreateAdsActivity;
 import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
-import com.petcity.pickme.data.response.ListAdvertiseResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivityHomeBinding;
 import com.petcity.pickme.help.HelpActivity;
@@ -170,7 +165,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
             public void onChanged(LiveDataWrapper<User> userLiveDataWrapper) {
                 switch (userLiveDataWrapper.status) {
                     case LOADING:
-                        if(loadingDialog == null)
+                        if (loadingDialog == null)
                             loadingDialog = new LoadingDialog();
                         loadingDialog.show(getSupportFragmentManager(), null);
                         break;

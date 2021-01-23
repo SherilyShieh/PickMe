@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName CommonResponse
- * @Description TODO
+ * @Description Common Response for Api
  * @Author sherily
  * @Date 21/01/21 10:56 PM
  * @Version 1.0
@@ -22,6 +22,13 @@ public class CommonResponse {
 
     @SerializedName("user_id")
     private String user_id;
+
+    @SerializedName("file")
+    private String file;
+
+    public String getFile() {
+        return file;
+    }
 
     public String getMsg() {
         return msg;

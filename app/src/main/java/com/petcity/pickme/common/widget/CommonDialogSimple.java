@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 
 /**
  * @ClassName CommonDialogSimple
- * @Description TODO
+ * @Description CommonDialogSimple
  * @Author sherily
  * @Date 17/01/21 4:32 PM
  * @Version 1.0
@@ -72,7 +72,7 @@ public class CommonDialogSimple extends DialogFragment {
 
 
     public SpannableStringBuilder matcherSearchText(int color, float textSize, String text, String keyword) {
-        if ( textSize == 0.0f )
+        if (textSize == 0.0f)
             textSize = 14f;
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, getResources().getDisplayMetrics());
         SpannableStringBuilder ss = new SpannableStringBuilder(text);
@@ -82,34 +82,35 @@ public class CommonDialogSimple extends DialogFragment {
             int start = matcher.start();
             int end = matcher.end();
             ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ss.setSpan(new AbsoluteSizeSpan(size), start , end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new AbsoluteSizeSpan(size), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return ss;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.common_dialog_layout_2,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.common_dialog_layout_2, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
-        if (null != getArguments()){
+        if (null != getArguments()) {
             mParam = getArguments().getParcelable(KEY_PARAM);
             binding.title.setVisibility(mParam.showTitle ? View.VISIBLE : View.GONE);
             if (!TextUtils.isEmpty(mParam.keyword)) {
-                binding.title.setText( matcherSearchText(mParam.keyColor,mParam.keySize,mParam.title,mParam.keyword));
+                binding.title.setText(matcherSearchText(mParam.keyColor, mParam.keySize, mParam.title, mParam.keyword));
 
             } else {
                 binding.title.setText(mParam.title);
             }
             binding.title.setGravity(mParam.contentGravity);
             binding.cancel.setText(mParam.cancelStr);
-            binding.cancel.setTextColor(ContextCompat.getColor(binding.cancel.getContext(),mParam.cancelColor));
+            binding.cancel.setTextColor(ContextCompat.getColor(binding.cancel.getContext(), mParam.cancelColor));
             binding.cancel.setVisibility(mParam.showCancel ? View.VISIBLE : View.GONE);
             binding.action1.setText(mParam.action1Str);
-            binding.action1.setTextColor(ContextCompat.getColor(binding.action1.getContext(),mParam.action1Color));
+            binding.action1.setTextColor(ContextCompat.getColor(binding.action1.getContext(), mParam.action1Color));
             binding.action1.setVisibility(mParam.showAction1 ? View.VISIBLE : View.GONE);
             binding.action2.setText(mParam.action2Str);
-            binding.action2.setTextColor(ContextCompat.getColor(binding.action2.getContext(),mParam.action2Color));
+            binding.action2.setTextColor(ContextCompat.getColor(binding.action2.getContext(), mParam.action2Color));
             binding.action2.setVisibility(mParam.showAction2 ? View.VISIBLE : View.GONE);
         }
         binding.cancel.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +137,7 @@ public class CommonDialogSimple extends DialogFragment {
         return binding.getRoot();
     }
 
-    static CommonDialogSimple newInstance(DialogParam param){
+    static CommonDialogSimple newInstance(DialogParam param) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_PARAM, param);
         CommonDialogSimple fragment = new CommonDialogSimple();
@@ -157,71 +158,72 @@ public class CommonDialogSimple extends DialogFragment {
             mParam = new DialogParam();
         }
 
-        public Builder setTitle(String title){
+        public Builder setTitle(String title) {
             mParam.title = title;
             return this;
         }
 
-        public Builder showTitle(boolean show){
+        public Builder showTitle(boolean show) {
             mParam.showTitle = show;
             return this;
         }
 
-        public Builder setCancelBtn(String text, View.OnClickListener listener){
+        public Builder setCancelBtn(String text, View.OnClickListener listener) {
             mCancelListener = listener;
             mParam.cancelStr = text;
             return this;
         }
 
-        public Builder setCancelColor(@ColorRes int res){
+        public Builder setCancelColor(@ColorRes int res) {
             mParam.cancelColor = res;
             return this;
         }
 
-        public Builder showCancel(boolean show){
+        public Builder showCancel(boolean show) {
             mParam.showCancel = show;
             return this;
         }
-        public Builder setAction1Btn(String text, View.OnClickListener listener){
+
+        public Builder setAction1Btn(String text, View.OnClickListener listener) {
             mAction1Listener = listener;
             mParam.action1Str = text;
             return this;
         }
 
-        public Builder setAction1Color(@ColorRes int res){
+        public Builder setAction1Color(@ColorRes int res) {
             mParam.action1Color = res;
             return this;
         }
 
-        public Builder showAction1(boolean show){
+        public Builder showAction1(boolean show) {
             mParam.showAction1 = show;
             return this;
         }
 
-        public Builder setAction2Btn(String text, View.OnClickListener listener){
+        public Builder setAction2Btn(String text, View.OnClickListener listener) {
             mAction2Listener = listener;
             mParam.action2Str = text;
             return this;
         }
 
-        public Builder setAction2Color(@ColorRes int res){
+        public Builder setAction2Color(@ColorRes int res) {
             mParam.action2Color = res;
             return this;
         }
 
-        public Builder showAction2(boolean show){
+        public Builder showAction2(boolean show) {
             mParam.showAction2 = show;
             return this;
         }
 
-        public Builder setKey(String keyWord, int keyColor, float keySize){
+        public Builder setKey(String keyWord, int keyColor, float keySize) {
             mParam.keyword = keyWord;
             mParam.keyColor = keyColor;
             mParam.keySize = keySize;
             return this;
         }
 
-        public Builder setContentGravity(int gravity){
+        public Builder setContentGravity(int gravity) {
             mParam.contentGravity = gravity;
             return this;
         }
@@ -279,18 +281,19 @@ public class CommonDialogSimple extends DialogFragment {
             keySize = in.readFloat();
             contentGravity = in.readInt();
         }
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(title);
             dest.writeByte((byte) (showTitle ? 1 : 0));
             dest.writeString(cancelStr);
-            dest.writeByte((byte)(showCancel ? 1 : 0));
+            dest.writeByte((byte) (showCancel ? 1 : 0));
             dest.writeInt(cancelColor);
             dest.writeString(action1Str);
-            dest.writeByte((byte)(showAction1 ? 1 : 0));
+            dest.writeByte((byte) (showAction1 ? 1 : 0));
             dest.writeInt(action1Color);
             dest.writeString(action2Str);
-            dest.writeByte((byte)(showAction2 ? 1 : 0));
+            dest.writeByte((byte) (showAction2 ? 1 : 0));
             dest.writeInt(action2Color);
             dest.writeString(keyword);
             dest.writeInt(keyColor);

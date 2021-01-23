@@ -27,15 +27,15 @@ public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.ViewHolder> 
     private List<AdvertiseResponse> datas;
     private Object mEventObject;
 
-    public void refresh(List<AdvertiseResponse> data){
-        if (null != datas){
+    public void refresh(List<AdvertiseResponse> data) {
+        if (null != datas) {
             datas.clear();
         }
         this.datas = data;
         notifyDataSetChanged();
     }
 
-    public void loadMore(List<AdvertiseResponse> data){
+    public void loadMore(List<AdvertiseResponse> data) {
         this.datas.addAll(data);
         notifyDataSetChanged();
     }
@@ -47,7 +47,7 @@ public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (null == inflater )
+        if (null == inflater)
             inflater = LayoutInflater.from(parent.getContext());
         return new MyAdsAdapter.ViewHolder(DataBindingUtil.inflate(inflater, R.layout.my_ads_item, parent, false));
     }
@@ -70,7 +70,7 @@ public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.ViewHolder> 
             this.binding = (MyAdsItemBinding) binding;
         }
 
-        public void bind(Object mEventHandler, AdvertiseResponse model){
+        public void bind(Object mEventHandler, AdvertiseResponse model) {
             binding.setViewModel((MyAdsViewModel) mEventHandler);
             binding.setModel(model);
         }

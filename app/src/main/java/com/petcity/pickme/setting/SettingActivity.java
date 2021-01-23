@@ -1,9 +1,17 @@
 package com.petcity.pickme.setting;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import com.facebook.login.LoginManager;
@@ -27,6 +37,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -39,6 +50,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.petcity.pickme.R;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
+import com.petcity.pickme.common.utils.BitmapUtils;
 import com.petcity.pickme.common.utils.CameraTools;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
@@ -47,6 +59,7 @@ import com.petcity.pickme.common.widget.UpdateEmailDialog;
 import com.petcity.pickme.common.widget.UpdateGenderDialog;
 import com.petcity.pickme.common.widget.UpdateNameDialog;
 import com.petcity.pickme.common.widget.UpdatePwdDialog;
+import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivitySettingBinding;
 import com.petcity.pickme.login.LoginActivity;
@@ -59,13 +72,17 @@ import javax.inject.Inject;
 public class SettingActivity extends BaseActivity<ActivitySettingBinding, SettingViewModel> implements View.OnClickListener {
 
     private static final String TAG = "SettingActivity";
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1001;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 1001;
+    private static final int REQUEST_CAMERA_CODE = 1002;
+    private static final int OPEN_ABLUM = 1003;
     private CommonDialogSimple logoutDialog;
     private CommonDialogSimple updateAvatarDialog;
     private UpdatePwdDialog updatePwdDialog;
     private UpdateNameDialog updateNameDialog;
     private UpdateEmailDialog updateEmailDialog;
     private UpdateGenderDialog updateGenderDialog;
+    private LoadingDialog loadingDialog;
+    private boolean isNeedReAuth;
 
     CameraTools cameraTools;
 
@@ -104,6 +121,54 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
         mBinding.genderRl.setOnClickListener(this);
         mBinding.locationRl.setOnClickListener(this);
         mBinding.passwordRl.setOnClickListener(this);
+        ShapeAppearanceModel shape = ShapeAppearanceModel.builder().setAllCornerSizes(ShapeAppearanceModel.PILL).build();
+        mBinding.avatar.setShapeAppearanceModel(shape);
+
+        mViewModel.updates
+                .observe(SettingActivity.this, new Observer<LiveDataWrapper<User>>() {
+                    @Override
+                    public void onChanged(LiveDataWrapper<User> userLiveDataWrapper) {
+                        switch (userLiveDataWrapper.status) {
+                            case LOADING:
+                                if (null == loadingDialog)
+                                    loadingDialog = new LoadingDialog();
+                                loadingDialog.show(getSupportFragmentManager(), null);
+                                break;
+                            case SUCCESS:
+                                mBinding.setModel(userLiveDataWrapper.data);
+                                if (isNeedReAuth) {
+                                    reauth();
+                                }
+                                loadingDialog.dismiss();
+                                break;
+                            case ERROR:
+                                loadingDialog.dismiss();
+                                Toast.makeText(SettingActivity.this, "Update failed cause by " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+        mViewModel.upload
+                .observe(SettingActivity.this, new Observer<LiveDataWrapper<CommonResponse>>() {
+                    @Override
+                    public void onChanged(LiveDataWrapper<CommonResponse> userLiveDataWrapper) {
+                        switch (userLiveDataWrapper.status) {
+                            case LOADING:
+                                if (null == loadingDialog)
+                                    loadingDialog = new LoadingDialog();
+                                loadingDialog.show(getSupportFragmentManager(), null);
+                                break;
+                            case SUCCESS:
+                                Toast.makeText(SettingActivity.this, "Upload avatar successful!", Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismiss();
+                                break;
+                            case ERROR:
+                                Toast.makeText(SettingActivity.this, "Upload avatar failed cause by " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismiss();
+                                break;
+                        }
+                    }
+                });
 
 
     }
@@ -160,6 +225,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
         updatePwdDialog.show(getSupportFragmentManager(), "updatePwdDialog");
 
     }
+
     private void updatePassword(String password) {
         mAuth.getCurrentUser().updatePassword(password)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -172,7 +238,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                         } else {
                             Exception e = task.getException();
 
-                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException ) {
+                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
                                 logout();
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -185,30 +251,9 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
 
     private void updateProfile(String uid, String avatar, String firstName,
                                String lastName, String email, String gender, String location, String password) {
-        LoadingDialog loadingDialog = new LoadingDialog();
-        boolean isNeedReAuth = !TextUtils.isEmpty(email) || !TextUtils.isEmpty(password);
-        mViewModel.updateProfile(uid, avatar, firstName, lastName, email, gender, location, password)
-                .observe(SettingActivity.this, new Observer<LiveDataWrapper<User>>() {
-                    @Override
-                    public void onChanged(LiveDataWrapper<User> userLiveDataWrapper) {
-                        switch (userLiveDataWrapper.status) {
-                            case LOADING:
-                                loadingDialog.show(getSupportFragmentManager(), null);
-                                break;
-                            case SUCCESS:
-                                mBinding.setModel(userLiveDataWrapper.data);
-                                if (isNeedReAuth) {
-                                    reauth();
-                                }
-                                loadingDialog.dismiss();
-                                break;
-                            case ERROR:
-                                loadingDialog.dismiss();
-                                Toast.makeText(SettingActivity.this, "Update failed cause by " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
+        isNeedReAuth = !TextUtils.isEmpty(email) || !TextUtils.isEmpty(password);
+        mViewModel.updateProfile(uid, avatar, firstName, lastName, email, gender, location, password);
+
 
     }
 
@@ -222,6 +267,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
+
     private void updateName(String firstName, String lastName) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(firstName + " " + lastName)
@@ -237,7 +283,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                         } else {
                             Exception e = task.getException();
 
-                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException ) {
+                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
                                 logout();
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -246,6 +292,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                     }
                 });
     }
+
     private void updateName() {
         if (updateNameDialog == null) {
             updateNameDialog = new UpdateNameDialog.Builder()
@@ -272,6 +319,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
     }
 
     private AuthCredential credential;
+
     private void reauth() {
 
         // Get auth credentials from the user for re-authentication. The example below shows
@@ -284,7 +332,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
             reauthenticate(credential);
         } else {
             mAuth.getCurrentUser().getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>(){
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
 
                         @Override
                         public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -322,7 +370,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                         } else {
                             Exception e = task.getException();
 
-                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException ) {
+                            if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
                                 logout();
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -332,15 +380,66 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                 });
     }
 
-    private void takePhoto() {
-        // todo
-        if (cameraTools == null)
-            cameraTools = new CameraTools(SettingActivity.this);
+    private void openCamera() {
+        if (cameraTools != null)
+            cameraTools = null;
+        cameraTools = new CameraTools(SettingActivity.this);
         cameraTools.takePhoto();
     }
 
+    private boolean isAblum;
+
+    private void requestPermissionForPhoto(boolean isAblum) {
+        this.isAblum = isAblum;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CAMERA_CODE);
+                return;
+            } else {
+                if (isAblum) {
+                    openAblum();
+                } else {
+                    openCamera();
+                }
+            }
+        } else {
+            if (isAblum) {
+                openAblum();
+            } else {
+                openCamera();
+            }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);//grantResults用来存放被拒绝的权限
+        switch (requestCode) {
+            case REQUEST_CAMERA_CODE:
+                if (grantResults.length > 0) {
+                    for (int grantResult : grantResults) {
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "No Camera Permission", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                }
+                if (isAblum) {
+                    openAblum();
+                } else {
+                    openCamera();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     private void openAblum() {
-        // todo
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, OPEN_ABLUM);
     }
 
 
@@ -359,15 +458,14 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                         @Override
                         public void onClick(View v) {
 
-                            takePhoto();
+                            requestPermissionForPhoto(false);
                             updateAvatarDialog.dismiss();
                         }
                     })
                     .setAction2Btn("Album", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            openAblum();
+                            requestPermissionForPhoto(true);
                             updateAvatarDialog.dismiss();
                         }
                     })
@@ -396,6 +494,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                     }
                 });
     }
+
     private void updateEmail() {
         if (updateEmailDialog == null) {
             updateEmailDialog = new UpdateEmailDialog.Builder()
@@ -416,6 +515,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
         updateEmailDialog.show(getSupportFragmentManager(), "updateEmailDialog");
 
     }
+
     private void updateGender() {
         if (updateGenderDialog == null) {
             updateGenderDialog = new UpdateGenderDialog.Builder()
@@ -437,6 +537,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
         updateGenderDialog.show(getSupportFragmentManager(), "updateGenderDialog");
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -490,20 +591,52 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i("TAG", "Place: " + place.getAddress() + ", " + place.getId());
-                updateProfile(mAuth.getCurrentUser().getUid(), null, null, null,null, null, place.getAddress(),null);
+        switch (requestCode) {
+            case AUTOCOMPLETE_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    Place place = Autocomplete.getPlaceFromIntent(data);
+                    Log.i("TAG", "Place: " + place.getAddress() + ", " + place.getId());
+                    updateProfile(mAuth.getCurrentUser().getUid(), null, null, null, null, null, place.getAddress(), null);
 
-            } else if (resultCode == 2) {
-                // TODO: Handle the error.
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i("TAG", status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-            return;
+                } else if (resultCode == 2) {
+                    // TODO: Handle the error.
+                    Status status = Autocomplete.getStatusFromIntent(data);
+                    Log.i("TAG", status.getStatusMessage());
+                } else if (resultCode == RESULT_CANCELED) {
+                    // The user canceled the operation.
+                }
+                return;
+            case CameraTools.CODE_TAKE_PHOTO:
+
+                try {
+                    String path = cameraTools.getTempFile().getAbsolutePath();
+                    if (!TextUtils.isEmpty(path) && resultCode == RESULT_OK) {
+                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), path);
+                        cameraTools.setTempFile(null);
+                    }
+                } catch (Exception e) {
+                    Log.d("TakePhoto", e.getMessage());
+                }
+                break;
+            case OPEN_ABLUM:
+                if (data != null && resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData();
+                        String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                        Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                        c.moveToFirst();
+                        int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                        String imagePath = c.getString(columnIndex);
+                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), imagePath);
+                        c.close();
+                    } catch (Exception e) {
+                        Log.d("OpenAblum", e.getMessage());
+                    }
+                }
+                break;
+        }
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
