@@ -33,7 +33,6 @@ import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.databinding.ActivityLoginBinding;
-import com.petcity.pickme.home.HomeActivity;
 import com.petcity.pickme.register.RegisterActivity;
 import com.petcity.pickme.signin.SigninWithAccountActivity;
 
@@ -96,13 +95,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         }
     }
 
-    private void goHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
-        finish();
-    }
+//    private void goHome() {
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+////        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+//        finish();
+//    }
 
     private void siginWithThird(final FirebaseUser currentUser, String channel) {
         String uid = currentUser.getUid();
@@ -258,5 +257,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 break;
 
         }
+    }
+
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
     }
 }

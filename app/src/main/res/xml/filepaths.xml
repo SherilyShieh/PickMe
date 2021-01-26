@@ -2,20 +2,20 @@
 <paths>
     <files-path
         name="files"
-        path="/"/>
+        path="Download"/>
     <cache-path
         name="cache"
-        path="/"/>
+        path="."/>
     <external-path
         name="external"
         path="/"/>
     <external-files-path
         name="external_file_path"
-        path="/"/>
+        path="Download"/>
     <external-cache-path
         name="external_cache_path"
         path="/"/>
-<!--    <external-media-path-->
-<!--        name="external-media-path"-->
-<!--        path=""/>-->
+    <external-media-path
+        name="external-media-path"
+        path="/"/>
 </paths>

@@ -1,30 +1,24 @@
 package com.petcity.pickme.contacted;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.petcity.pickme.R;
-import com.petcity.pickme.ads.MyAdsActivity;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.utils.ClipBoard;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
-import com.petcity.pickme.common.widget.DividerItemDecoration;
 import com.petcity.pickme.common.widget.LinearDividerItemDecoration;
 import com.petcity.pickme.common.widget.LoadingDialog;
-import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.ContactedResponse;
 import com.petcity.pickme.databinding.ActivityMyContactedBinding;
-import com.petcity.pickme.home.HomeActivity;
 
 public class MyContactedActivity extends BaseActivity<ActivityMyContactedBinding, MyContactedViewModel> {
 
@@ -140,6 +134,16 @@ public class MyContactedActivity extends BaseActivity<ActivityMyContactedBinding
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
 
     }
 

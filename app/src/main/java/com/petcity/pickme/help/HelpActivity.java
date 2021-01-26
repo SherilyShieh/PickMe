@@ -69,6 +69,15 @@ public class HelpActivity extends BaseActivity<ActivityHelpBinding, HelpViewMode
         imageViews.get(index).setVisibility(openStatus.get(index) ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
+    }
 
     @Override
     public void onClick(View v) {

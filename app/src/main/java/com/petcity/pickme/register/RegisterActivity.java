@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.petcity.pickme.R;
@@ -27,8 +26,9 @@ import com.petcity.pickme.common.utils.RegexUtils;
 import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.databinding.ActivityRegisterBinding;
-import com.petcity.pickme.home.HomeActivity;
 import com.petcity.pickme.login.LoginActivity;
+import com.petcity.pickme.signin.SigninWithAccountActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,10 +81,10 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                             case SUCCESS:
                                 loadingDialog.dismiss();
                                 sendEmailVerification();
-                                goHome();
                                 break;
                             case ERROR:
                                 loadingDialog.dismiss();
+                                logout("Email");
                                 Toast.makeText(RegisterActivity.this, "Register failed cause by " + signinReponseLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
@@ -92,13 +92,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                 });
     }
 
-    private void goHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
-        finish();
-    }
+
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
@@ -124,30 +118,29 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                         }
                     }
                 });
-        // [END create_user_with_email]
     }
 
-    private void sendEmailVerification() {
-        // Send verification email
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(RegisterActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
+//    private void sendEmailVerification() {
+//        // Send verification email
+//        final FirebaseUser user = mAuth.getCurrentUser();
+//        user.sendEmailVerification()
+//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(RegisterActivity.this,
+//                                    "Verification email sent to " + user.getEmail(),
+//                                    Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Log.e(TAG, "sendEmailVerification", task.getException());
+//                            Toast.makeText(RegisterActivity.this,
+//                                    "Failed to send verification email.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//
+//    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -263,5 +256,16 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
         }
     }
 
+    @Override
+    protected void onLogoutSuccess() {
+        Intent intent = new Intent(RegisterActivity.this, SigninWithAccountActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
+    @Override
+    protected void onSendEmailSuccess() {
+        logout("Email");
+
+    }
 }

@@ -59,17 +59,15 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".login.LoginActivity">
              <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
         <activity android:name=".options.OptionsActivity">
-<!--             <intent-filter>-->
+<!--         <intent-filter>-->
 <!--             <action android:name="android.intent.action.MAIN" />-->
-
-
 <!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+<!--         </intent-filter>-->
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name="com.google.android.libraries.places.widget.AutocompleteActivity" />
@@ -95,6 +93,14 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".common.compressor.LGImgCompressorIntentService"
+            android:exported="false" />
+        <service
+            android:name=".common.compressor.LGImgCompressorService"
+            android:process=":remote"/>
+
     </application>
 
 </manifest>

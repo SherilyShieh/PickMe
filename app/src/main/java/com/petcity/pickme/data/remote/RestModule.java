@@ -50,6 +50,7 @@ public class RestModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
+//                .baseUrl("http://47.100.136.30:7701/")
                 .baseUrl("http://192.168.31.88:7701/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))

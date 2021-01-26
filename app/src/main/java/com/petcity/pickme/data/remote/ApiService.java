@@ -3,11 +3,13 @@ package com.petcity.pickme.data.remote;
 import com.petcity.pickme.data.request.CommonRequest;
 import com.petcity.pickme.data.request.CreateAdRequest;
 import com.petcity.pickme.data.request.SigninRequest;
+import com.petcity.pickme.data.request.TestInfo;
 import com.petcity.pickme.data.request.UpdateProfileRequest;
 import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.ListAdvertiseResponse;
 import com.petcity.pickme.data.response.ListContactedResponse;
+import com.petcity.pickme.data.response.ListTestInfo;
 import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.data.response.User;
 
@@ -33,6 +35,19 @@ import retrofit2.http.Query;
  * @Version 1.0
  */
 public interface ApiService {
+
+    @PUT("api/v1/create")
+    Flowable<ResultWrapper<TestInfo>> create(@Body TestInfo request);
+
+    @POST("api/v1/update")
+    Flowable<ResultWrapper<SigninReponse>> update(@Body TestInfo request);
+
+    @HTTP(method = "DELETE", path = "api/v1/delete", hasBody = true)
+    Flowable<ResultWrapper<SigninReponse>> delete(@Body TestInfo request);
+
+    @GET("api/v1/getInfo")
+    Flowable<ResultWrapper<ListTestInfo>> getInfo();
+
 
     @PUT("api/v1/signUp")
     Flowable<ResultWrapper<SigninReponse>> signinWithThird(@Body SigninRequest request);

@@ -3,7 +3,6 @@ package com.petcity.pickme.create;
 import androidx.annotation.AttrRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Observer;
 
@@ -19,7 +18,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -35,7 +33,6 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 import com.petcity.pickme.R;
@@ -50,7 +47,6 @@ import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivityCreateAdsBinding;
-import com.petcity.pickme.home.HomeActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +55,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.function.BinaryOperator;
 
 public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, CreateAdsViewModel> implements View.OnClickListener {
 
@@ -198,7 +193,6 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
         cal.setLenient(false);
 
         String format = formatter.format(cal.getTime());
-        // todo
         mBinding.startTime.setText(format);
         mBinding.startTime.clearFocus();
         hour = newHour;
@@ -478,6 +472,16 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
             errorlist.get(0).requestFocus();
         }
 
+
+    }
+
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
 
     }
 

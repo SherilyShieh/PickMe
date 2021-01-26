@@ -52,6 +52,17 @@ public class BindingEvent {
         rv.setLayoutManager(layoutManager);
     }
 
+    @BindingAdapter("adapterNormal")
+    public static void setAdapterForNormal(final RecyclerView rv, RecyclerView.Adapter adapter) {
+        rv.setAdapter(adapter);
+    }
+
+    @BindingAdapter("layoutManagerNormal")
+    public static void setLayoutManagerForNormal(final RecyclerView rv, RecyclerView.LayoutManager layoutManager) {
+        if (null == layoutManager) layoutManager = new LinearLayoutManager(rv.getContext());
+        rv.setLayoutManager(layoutManager);
+    }
+
     @BindingAdapter("OnRefreshListener")
     public static void OnRefreshListener(final SwipeRefreshLayout swipeRefreshLayout, final BaseViewModel viewModel) {
 

@@ -10,6 +10,7 @@ import com.petcity.pickme.create.CreateAdsViewModel;
 import com.petcity.pickme.help.HelpViewModel;
 import com.petcity.pickme.home.HomeViewModel;
 import com.petcity.pickme.login.LoginViewModel;
+import com.petcity.pickme.options.OptionsViewModel;
 import com.petcity.pickme.register.RegisterViewModel;
 import com.petcity.pickme.setting.SettingViewModel;
 import com.petcity.pickme.signin.SigninWithAccountViewModel;
@@ -30,6 +31,11 @@ public abstract class ViewModelModule {
 
     @Binds
     abstract ViewModelProvider.Factory bindsViewModelFactory(ViewModelFactory viewModelFactory);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OptionsViewModel.class)
+    abstract ViewModel bindsOptionsViewModel(OptionsViewModel optionsViewModel);
 
     @Binds
     @IntoMap

@@ -1,10 +1,8 @@
 package com.petcity.pickme.signin;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,13 +23,8 @@ import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.RegexUtils;
 import com.petcity.pickme.common.widget.CommonDialog;
 import com.petcity.pickme.common.widget.LoadingDialog;
-import com.petcity.pickme.common.widget.UpdatePwdDialog;
-import com.petcity.pickme.data.response.SigninReponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivitySigninWithAccountBinding;
-import com.petcity.pickme.home.HomeActivity;
-import com.petcity.pickme.register.RegisterActivity;
-import com.petcity.pickme.setting.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +37,16 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
 
     private CommonDialog verifyEmialDialog;
 
+
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
+    }
 
     @Override
     protected boolean isHide() {
@@ -132,13 +135,13 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
         };
     }
 
-    private void goHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
-        finish();
-    }
+//    private void goHome() {
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+////        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+//        finish();
+//    }
 
     private void resetPasswordWithEmial(String email) {
         mAuth.sendPasswordResetEmail(email)
@@ -188,8 +191,14 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
                         break;
                     case SUCCESS:
                         loadingDialog.dismiss();
-                        PreferenceManager.getInstance().setCurrentUserInfo(userLiveDataWrapper.data);
-                        goHome();
+                        if (verifyAccess()) {
+                            preferenceManager.setCurrentUserInfo(userLiveDataWrapper.data);
+                            goHome();
+                        } else {
+                            logout(userLiveDataWrapper.data.getChannel());
+                            preferenceManager.clearCurrentUserInfo();
+                        }
+
                         break;
                     case ERROR:
                         loadingDialog.dismiss();

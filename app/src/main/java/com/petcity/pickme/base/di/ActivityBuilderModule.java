@@ -7,6 +7,7 @@ import com.petcity.pickme.create.CreateAdsActivity;
 import com.petcity.pickme.help.HelpActivity;
 import com.petcity.pickme.home.HomeActivity;
 import com.petcity.pickme.login.LoginActivity;
+import com.petcity.pickme.options.OptionsActivity;
 import com.petcity.pickme.register.RegisterActivity;
 import com.petcity.pickme.setting.SettingActivity;
 import com.petcity.pickme.signin.SigninWithAccountActivity;
@@ -23,6 +24,9 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ActivityBuilderModule {
+
+    @ContributesAndroidInjector
+    abstract OptionsActivity optionsActivity();
 
     @ContributesAndroidInjector
     abstract LoginActivity loginActivity();

@@ -75,9 +75,8 @@
                         android:id="@+id/publish_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@mipmap/blank"
+                        android:src="@mipmap/post_ad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -105,9 +104,8 @@
                         android:id="@+id/search_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@mipmap/blank"
+                        android:src="@mipmap/search_ad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -132,12 +130,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                     <ImageView
+                        android:layout_marginBottom="5dp"
                         android:id="@+id/contact_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:src="@mipmap/blank"
+                        android:src="@mipmap/contact_us"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 

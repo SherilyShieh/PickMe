@@ -2,6 +2,8 @@ package com.petcity.pickme.common.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,6 +17,9 @@ import com.petcity.pickme.BuildConfig;
 import com.petcity.pickme.base.BaseActivity;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -73,7 +78,6 @@ public class CameraTools {
 
     }
 
-
     public void crop(String imagePath, int aspectX, int aspectY, int outputX, int outputY) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
@@ -83,7 +87,13 @@ public class CameraTools {
         intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
         intent.putExtra("return-data", false);
-        Uri uri = Uri.fromFile(tempFile);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            String authority = mContext.getPackageName() + ".fileprovider";
+            uri = FileProvider.getUriForFile(mContext, authority, tempFile);
+        } else {
+            uri = Uri.fromFile(tempFile);
+        }
         if (BuildConfig.DEBUG)
             Log.i(TAG, "crop: " + uri.toString());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);

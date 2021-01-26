@@ -50,6 +50,16 @@ public class MyAdsActivity extends BaseActivity<ActivityMyAdsBinding, MyAdsViewM
     }
 
     @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mViewModel.loadData(true);

@@ -12,6 +12,16 @@ public class AboutActivity extends BaseActivity<ActivityAboutBinding, AboutViewM
 
 
     @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
+    }
+
+    @Override
     protected boolean isHide() {
         return true;
     }

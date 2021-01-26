@@ -23,6 +23,7 @@ public class PreferenceManager {
 
     public static final String SP_NAME = "PetCity_PickMe_SP";
     private static String CURRENT_USERINFO = "CURRENT_USERINFO";
+    private static String CURRENT_TEST_TYPE = "CURRENT_TEST_TYPE";
     private static SharedPreferences mSharedPreferences;
     private static PreferenceManager mPreferenceManager;
     private static SharedPreferences.Editor mEditor;
@@ -70,6 +71,20 @@ public class PreferenceManager {
         if (TextUtils.isEmpty(userjson))
             return null;
         return new Gson().fromJson(userjson, User.class);
+    }
+
+    public void setTestType(String type) {
+        mEditor.putString(CURRENT_TEST_TYPE, type);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            mEditor.apply();
+        } else {
+            mEditor.commit();
+        }
+    }
+
+
+    public String getTestType() {
+        return mSharedPreferences.getString(CURRENT_TEST_TYPE, "");
     }
 
     public void clearAll() {

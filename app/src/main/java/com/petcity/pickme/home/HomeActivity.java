@@ -50,6 +50,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     private LoadingDialog loadingDialog;
     private CommonDialogSimple copyEmailDialog;
     private SearchDialog searchDialog;
+    private ShapeableImageView imageView;
+    private TextView name;
 
 
     @Override
@@ -145,9 +147,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         });
         View drawview = mBinding.navigationView.inflateHeaderView(R.layout.nav_header_main);
         RelativeLayout header = (RelativeLayout) drawview.findViewById(R.id.user);
-        ShapeableImageView imageView = (ShapeableImageView) drawview.findViewById(R.id.avatar);
-        TextView name = (TextView) drawview.findViewById(R.id.name);
-
+        imageView = (ShapeableImageView) drawview.findViewById(R.id.avatar);
+        name = (TextView) drawview.findViewById(R.id.name);
         ShapeAppearanceModel shape = ShapeAppearanceModel.builder().setAllCornerSizes(ShapeAppearanceModel.PILL).build();
         imageView.setShapeAppearanceModel(shape);
         header.setOnClickListener(new View.OnClickListener() {
@@ -160,40 +161,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         });
         mBinding.create.setOnClickListener(this);
 
-        mViewModel.getCurrentUser(mAuth.getCurrentUser().getUid()).observe(HomeActivity.this, new Observer<LiveDataWrapper<User>>() {
-            @Override
-            public void onChanged(LiveDataWrapper<User> userLiveDataWrapper) {
-                switch (userLiveDataWrapper.status) {
-                    case LOADING:
-                        if (loadingDialog == null)
-                            loadingDialog = new LoadingDialog();
-                        loadingDialog.show(getSupportFragmentManager(), null);
-                        break;
-                    case SUCCESS:
-                        User user = userLiveDataWrapper.data;
-                        if (null == user) {
-                            loadActivity(LoginActivity.class);
-                            mAuth.signOut();
-                            finish();
-                        }
-                        Glide.with(imageView.getContext())
-                                .load((TextUtils.isEmpty(user.getAvatar()) ? R.mipmap.avtar : user.getAvatar()))
-                                .centerCrop()
-                                .error(R.mipmap.error)
-                                .placeholder(R.mipmap.avtar)
-                                .into(imageView);
-                        name.setText(user.formatName());
-                        if (null != loadingDialog)
-                            loadingDialog.dismiss();
-                        break;
-                    case ERROR:
-                        Toast.makeText(HomeActivity.this, "Error: " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
-                        if (null != loadingDialog)
-                            loadingDialog.dismiss();
-                        break;
-                }
-            }
-        });
+
 
         mViewModel.show.observe(this, new Observer<AdvertiseResponse>() {
             @Override
@@ -204,7 +172,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                 }
 
                 copyEmailDialog = new CommonDialogSimple.Builder()
-                        .setTitle("Please copy the user's email and congtact the user:" + aResponse.getUser().getEmail())
+                        .setTitle("Please copy the user's email and contact the user:" + aResponse.getUser().getEmail())
                         .setKey(aResponse.getUser().getEmail(), 0xff0290FA, 14)
                         .showAction2(false)
                         .setCancelBtn("Cancel", new View.OnClickListener() {
@@ -262,6 +230,40 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     @Override
     protected void onResume() {
         super.onResume();
+        mViewModel.getCurrentUser(mAuth.getCurrentUser().getUid()).observe(HomeActivity.this, new Observer<LiveDataWrapper<User>>() {
+            @Override
+            public void onChanged(LiveDataWrapper<User> userLiveDataWrapper) {
+                switch (userLiveDataWrapper.status) {
+                    case LOADING:
+                        if (loadingDialog == null)
+                            loadingDialog = new LoadingDialog();
+                        loadingDialog.show(getSupportFragmentManager(), null);
+                        break;
+                    case SUCCESS:
+                        User user = userLiveDataWrapper.data;
+                        if (null == user) {
+                            loadActivity(LoginActivity.class);
+                            mAuth.signOut();
+                            finish();
+                        }
+                        Glide.with(imageView.getContext())
+                                .load((TextUtils.isEmpty(user.getAvatar()) ? R.mipmap.avtar : user.getAvatar()))
+                                .centerCrop()
+                                .error(R.mipmap.error)
+                                .placeholder(R.mipmap.avtar)
+                                .into(imageView);
+                        name.setText(user.formatName());
+                        if (null != loadingDialog)
+                            loadingDialog.dismiss();
+                        break;
+                    case ERROR:
+                        Toast.makeText(HomeActivity.this, "Error: " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (null != loadingDialog)
+                            loadingDialog.dismiss();
+                        break;
+                }
+            }
+        });
         mViewModel.loadData(true);
     }
 
@@ -272,5 +274,15 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                 CreateAdsActivity.satrtCreateForResult(HomeActivity.this, false, null);
                 break;
         }
+    }
+
+    @Override
+    protected void onLogoutSuccess() {
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
     }
 }

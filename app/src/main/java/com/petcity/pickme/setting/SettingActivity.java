@@ -2,12 +2,9 @@ package com.petcity.pickme.setting;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,13 +21,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -62,12 +54,11 @@ import com.petcity.pickme.common.widget.UpdatePwdDialog;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivitySettingBinding;
-import com.petcity.pickme.login.LoginActivity;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
 
 public class SettingActivity extends BaseActivity<ActivitySettingBinding, SettingViewModel> implements View.OnClickListener {
 
@@ -173,37 +164,37 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
 
     }
 
-    private void logout() {
-        mAuth.signOut();
-        String channel = PreferenceManager.getInstance().getCurrentUserInfo().getChannel();
-        if (TextUtils.equals(channel, "Facebook")) {
-            LoginManager.getInstance().logOut();
-        } else if (TextUtils.equals(channel, "Google")) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build();
-            // [END config_signin]
-
-            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(SettingActivity.this, gso);
-            mGoogleSignInClient.signOut().addOnCompleteListener(SettingActivity.this,
-                    new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // todo
-                        }
-                    });
-        }
-
-        PreferenceManager.getInstance().setCurrentUserInfo(null);
-        if (logoutDialog != null) {
-            logoutDialog.dismiss();
-        }
-        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
+//    private void logout() {
+//        mAuth.signOut();
+//        String channel = preferenceManager.getCurrentUserInfo().getChannel();
+//        if (TextUtils.equals(channel, "Facebook")) {
+//            LoginManager.getInstance().logOut();
+//        } else if (TextUtils.equals(channel, "Google")) {
+//            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                    .requestIdToken(getString(R.string.default_web_client_id))
+//                    .requestEmail()
+//                    .build();
+//            // [END config_signin]
+//
+//            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(SettingActivity.this, gso);
+//            mGoogleSignInClient.signOut().addOnCompleteListener(SettingActivity.this,
+//                    new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            // todo
+//                        }
+//                    });
+//        }
+//
+//        PreferenceManager.getInstance().setCurrentUserInfo(null);
+////        if (logoutDialog != null) {
+////            logoutDialog.dismiss();
+////        }
+//        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        finish();
+//    }
 
     private void updatePassword() {
         if (updatePwdDialog == null) {
@@ -239,7 +230,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             Exception e = task.getException();
 
                             if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
-                                logout();
+                                logout(preferenceManager.getCurrentUserInfo().getChannel());
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -284,7 +275,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             Exception e = task.getException();
 
                             if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
-                                logout();
+                                logout(preferenceManager.getCurrentUserInfo().getChannel());
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -349,7 +340,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                                 }
                             } else {
                                 Toast.makeText(SettingActivity.this, "Re-authenticate failed, please re-login! Caused by: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                logout();
+                                logout(preferenceManager.getCurrentUserInfo().getChannel());
                             }
                         }
                     });
@@ -371,7 +362,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             Exception e = task.getException();
 
                             if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException) {
-                                logout();
+                                logout(preferenceManager.getCurrentUserInfo().getChannel());
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -486,7 +477,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             Exception e = task.getException();
 
                             if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException || e instanceof FirebaseAuthRecentLoginRequiredException) {
-                                logout();
+                                logout(preferenceManager.getCurrentUserInfo().getChannel());
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -577,7 +568,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             .setAction1Btn("Sure", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    logout();
+                                    logout(preferenceManager.getCurrentUserInfo().getChannel());
                                 }
                             })
                             .create();
@@ -587,6 +578,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                 break;
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -609,9 +601,10 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
             case CameraTools.CODE_TAKE_PHOTO:
 
                 try {
-                    String path = cameraTools.getTempFile().getAbsolutePath();
-                    if (!TextUtils.isEmpty(path) && resultCode == RESULT_OK) {
-                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), path);
+                    File path = cameraTools.getTempFile();
+                    if (null != path && resultCode == RESULT_OK) {
+                        File path2 = BitmapUtils.comprass(path.getAbsolutePath());
+                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), path2 == null ? null : path2.getAbsolutePath());
                         cameraTools.setTempFile(null);
                     }
                 } catch (Exception e) {
@@ -627,7 +620,8 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                         c.moveToFirst();
                         int columnIndex = c.getColumnIndex(filePathColumns[0]);
                         String imagePath = c.getString(columnIndex);
-                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), imagePath);
+                        File path = BitmapUtils.comprass(imagePath);
+                        mViewModel.saveAvatar(mAuth.getCurrentUser().getUid(), path == null ? null : path.getAbsolutePath());
                         c.close();
                     } catch (Exception e) {
                         Log.d("OpenAblum", e.getMessage());
@@ -639,5 +633,16 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onLogoutSuccess() {
+        goToSignInOptions();
+
+    }
+
+    @Override
+    protected void onSendEmailSuccess() {
+
     }
 }
