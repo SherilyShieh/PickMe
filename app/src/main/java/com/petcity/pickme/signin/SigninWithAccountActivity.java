@@ -19,7 +19,6 @@ import com.google.firebase.auth.AuthResult;
 import com.petcity.pickme.R;
 import com.petcity.pickme.base.BaseActivity;
 import com.petcity.pickme.base.LiveDataWrapper;
-import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.RegexUtils;
 import com.petcity.pickme.common.widget.CommonDialog;
 import com.petcity.pickme.common.widget.LoadingDialog;
@@ -37,6 +36,8 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
 
     private CommonDialog verifyEmialDialog;
 
+    private String channel;
+
 
     @Override
     protected void onLogoutSuccess() {
@@ -45,7 +46,15 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
 
     @Override
     protected void onSendEmailSuccess() {
+        logout(channel);
+        preferenceManager.clearCurrentUserInfo();
+    }
 
+    @Override
+    protected void onResendEmailCancel() {
+        super.onResendEmailCancel();
+        logout(channel);
+        preferenceManager.clearCurrentUserInfo();
     }
 
     @Override
@@ -152,6 +161,8 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
                             Log.d(TAG, "Email sent.");
                             Toast.makeText(SigninWithAccountActivity.this, "Please check your email and reset your password.", Toast.LENGTH_SHORT).show();
                             verifyEmialDialog.dismiss();
+                        } else {
+                            Toast.makeText(SigninWithAccountActivity.this, "Some errors occur: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -191,12 +202,10 @@ public class SigninWithAccountActivity extends BaseActivity<ActivitySigninWithAc
                         break;
                     case SUCCESS:
                         loadingDialog.dismiss();
+                        channel = userLiveDataWrapper.data.getChannel();
                         if (verifyAccess()) {
                             preferenceManager.setCurrentUserInfo(userLiveDataWrapper.data);
                             goHome();
-                        } else {
-                            logout(userLiveDataWrapper.data.getChannel());
-                            preferenceManager.clearCurrentUserInfo();
                         }
 
                         break;

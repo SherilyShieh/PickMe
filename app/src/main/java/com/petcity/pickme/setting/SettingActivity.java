@@ -130,6 +130,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                                 if (isNeedReAuth) {
                                     reauth();
                                 }
+                                Toast.makeText(SettingActivity.this, "Update Successful!", Toast.LENGTH_SHORT).show();
                                 loadingDialog.dismiss();
                                 break;
                             case ERROR:
@@ -475,8 +476,9 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                             updateEmailDialog.dismiss();
                         } else {
                             Exception e = task.getException();
-
+                            Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             if (e instanceof FirebaseAuthInvalidCredentialsException || e instanceof FirebaseAuthInvalidUserException || e instanceof FirebaseAuthRecentLoginRequiredException) {
+
                                 logout(preferenceManager.getCurrentUserInfo().getChannel());
                             } else {
                                 Toast.makeText(SettingActivity.this, "Please re-login, some errors occur: " + e.getMessage(), Toast.LENGTH_SHORT).show();

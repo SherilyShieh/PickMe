@@ -28,16 +28,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.petcity.pickme.R;
-import com.petcity.pickme.common.utils.ClipBoard;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.StatusBarUtils;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
-import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.home.HomeActivity;
 import com.petcity.pickme.login.LoginActivity;
-import com.petcity.pickme.register.RegisterActivity;
-import com.petcity.pickme.setting.SettingActivity;
-import com.petcity.pickme.signin.SigninWithAccountActivity;
+
 
 import javax.inject.Inject;
 
@@ -81,6 +77,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                             Toast.makeText(BaseActivity.this,
                                     "Failed to send verification email.",
                                     Toast.LENGTH_SHORT).show();
+                            onResendEmailCancel();
 
                         }
                     }
@@ -99,6 +96,10 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     protected abstract void onLogoutSuccess();
 
     protected abstract void onSendEmailSuccess();
+
+    protected void onResendEmailCancel() {
+
+    }
 
 
 
@@ -156,6 +157,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                     .setCancelBtn("Cancel", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            onResendEmailCancel();
                             resendEmialDialog.dismiss();
                         }
                     })
