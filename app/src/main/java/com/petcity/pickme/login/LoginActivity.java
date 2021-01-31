@@ -90,9 +90,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        if (null != currentUser) {
+        if (null != currentUser && preferenceManager.getCurrentUserInfo() != null) {
             goHome();
         }
+
     }
 
 //    private void goHome() {
@@ -130,6 +131,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                                 break;
                             case ERROR:
                                 loadingDialog.dismiss();
+                                logout(channel);
                                 Toast.makeText(LoginActivity.this, "Sigin failed cause by " + signinReponseLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
