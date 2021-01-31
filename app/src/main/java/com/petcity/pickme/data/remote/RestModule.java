@@ -2,11 +2,9 @@ package com.petcity.pickme.data.remote;
 
 import com.google.gson.Gson;
 import com.petcity.pickme.BuildConfig;
-import com.petcity.pickme.common.utils.PreferenceManager;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -15,6 +13,9 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.petcity.pickme.common.Constants.host_url;
+
 
 /**
  * @ClassName RestModule
@@ -50,8 +51,7 @@ public class RestModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
-//                .baseUrl("http://47.100.136.30:7701/")
-                .baseUrl("http://192.168.31.88:7701/")
+                .baseUrl(host_url)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

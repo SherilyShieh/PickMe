@@ -100,7 +100,7 @@
                     android:layout_margin="4dp"
                     android:hint="Start Time"
                     app:errorEnabled="true"
-                    app:helperText="Please select date"
+                    app:helperText="Please select time"
                     app:helperTextEnabled="true">
                     <AutoCompleteTextView
                         android:inputType="none"
@@ -140,10 +140,10 @@
                     android:hint="Price"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
-                    app:helperText="Please input the total price of service"
+                    app:helperText="Please input total price"
                     app:helperTextEnabled="true"
                     app:prefixText="$"
-                    app:placeholderText="Duration">
+                    app:placeholderText="Price">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/price"
                         android:inputType="numberDecimal"
@@ -160,7 +160,7 @@
                     android:layout_margin="4dp"
                     android:hint="Location"
                     app:errorEnabled="true"
-                    app:helperText="Please select date"
+                    app:helperText="Please select address"
                     app:helperTextEnabled="true">
                     <AutoCompleteTextView
                         android:inputType="none"
@@ -180,7 +180,7 @@
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:helperText="Please input the description of service"
-                    app:placeholderText="Duration">
+                    app:placeholderText="Description">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description"
                         android:textColor="@color/white"

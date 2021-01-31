@@ -68,7 +68,7 @@ public class MyContactedActivity extends BaseActivity<ActivityMyContactedBinding
                 }
 
                 copyEmailDialog = new CommonDialogSimple.Builder()
-                        .setTitle("Please copy the user's email and congtact the user:" + aResponse.getAdvertise().getUser().getEmail())
+                        .setTitle("Please copy the user's email and contact the user:" + aResponse.getAdvertise().getUser().getEmail())
                         .setKey(aResponse.getAdvertise().getUser().getEmail(), 0xff0290FA, 14)
                         .showAction2(false)
                         .setCancelBtn("Cancel", new View.OnClickListener() {
