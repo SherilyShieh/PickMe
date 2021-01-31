@@ -56,6 +56,7 @@ public class RestModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
+
     }
 
     @Singleton

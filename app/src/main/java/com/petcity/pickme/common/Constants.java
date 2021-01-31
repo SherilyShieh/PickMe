@@ -12,8 +12,9 @@ import com.petcity.pickme.BuildConfig;
 public interface Constants {
 
     boolean DEBUG = BuildConfig.DEBUG;
-    String host_url = "http://192.168.31.88:7701/";
-//    String host_url = "http://47.100.136.30:7701/";
+//    String host_url = "http://192.168.31.88:7701/";
+    String host_url = "http://47.100.136.30:7701/";
+
 
     interface SP {
         String DEFAULT_SP_NAME = "PetCity_PickMe_SP";
