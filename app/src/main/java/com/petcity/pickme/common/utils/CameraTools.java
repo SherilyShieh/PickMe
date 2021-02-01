@@ -17,9 +17,6 @@ import com.petcity.pickme.BuildConfig;
 import com.petcity.pickme.base.BaseActivity;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

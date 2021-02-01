@@ -624,7 +624,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                     Place place = Autocomplete.getPlaceFromIntent(data);
                     Log.i("TAG", "Place: " + place.getAddress() + ", " + place.getId());
                     updateProfile(mAuth.getCurrentUser().getUid(), null, null, null, null, null, place.getAddress(), null);
-
+//                    showAddressDialog();
                 } else if (resultCode == 2) {
                     // TODO: Handle the error.
                     Status status = Autocomplete.getStatusFromIntent(data);

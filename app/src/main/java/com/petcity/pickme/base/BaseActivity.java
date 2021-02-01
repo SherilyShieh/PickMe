@@ -122,6 +122,8 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                             // todo
                             if (task.isSuccessful()) {
                                 onLogoutSuccess();
+                            } else {
+                                onLogoutSuccess();
                             }
                         }
                     });

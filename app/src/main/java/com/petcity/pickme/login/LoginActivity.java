@@ -86,11 +86,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(currentUser, true);
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-        if (null != currentUser && preferenceManager.getCurrentUserInfo() != null) {
+    private void updateUI(FirebaseUser currentUser, boolean isStart) {
+        if (null != currentUser) {
+            if (isStart && preferenceManager.getCurrentUserInfo() == null) return;
             goHome();
         }
 
@@ -127,7 +128,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                                 break;
                             case SUCCESS:
                                 loadingDialog.dismiss();
-                                updateUI(currentUser);
+                                updateUI(currentUser, false);
                                 break;
                             case ERROR:
                                 loadingDialog.dismiss();
@@ -185,7 +186,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
                 // [START_EXCLUDE]
-                updateUI(null);
+                updateUI(null, false);
                 Toast.makeText(LoginActivity.this, "Sigin failed cause by:  " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }
@@ -211,7 +212,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null, false);
                         }
 
                     }

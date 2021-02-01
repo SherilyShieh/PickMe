@@ -37,7 +37,7 @@ public class RestModule {
                 .connectTimeout(BuildConfig.DEFAULT_NETWORK_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(BuildConfig.DEFAULT_NETWORK_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(BuildConfig.DEFAULT_NETWORK_TIMEOUT, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(false)
+                .retryOnConnectionFailure(true)
                 .build();
     }
 

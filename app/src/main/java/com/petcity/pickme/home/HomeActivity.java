@@ -260,6 +260,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                         Toast.makeText(HomeActivity.this, "Error: " + userLiveDataWrapper.error.getMessage(), Toast.LENGTH_SHORT).show();
                         if (null != loadingDialog)
                             loadingDialog.dismiss();
+                        logout("");
                         break;
                 }
             }
@@ -278,7 +279,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
 
     @Override
     protected void onLogoutSuccess() {
-
+        goToSignInOptions();
     }
 
     @Override

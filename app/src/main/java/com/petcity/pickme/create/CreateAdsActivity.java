@@ -395,6 +395,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 Log.i("TAG", "Place: " + place.getAddress() + ", " + place.getId());
                 mBinding.location.setText(place.getAddress());
+//                showAddressDialog();
             } else if (resultCode == 2) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
