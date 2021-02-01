@@ -45,12 +45,14 @@ import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.utils.BitmapUtils;
 import com.petcity.pickme.common.utils.CameraTools;
 import com.petcity.pickme.common.utils.PreferenceManager;
+import com.petcity.pickme.common.widget.CommonDialog;
 import com.petcity.pickme.common.widget.CommonDialogSimple;
 import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.common.widget.UpdateEmailDialog;
 import com.petcity.pickme.common.widget.UpdateGenderDialog;
 import com.petcity.pickme.common.widget.UpdateNameDialog;
 import com.petcity.pickme.common.widget.UpdatePwdDialog;
+import com.petcity.pickme.create.CreateAdsActivity;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivitySettingBinding;
@@ -76,6 +78,8 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
     private boolean isNeedReAuth;
 
     CameraTools cameraTools;
+    private CommonDialog addressDialog;
+
 
     @Override
     protected boolean isHide() {
@@ -196,6 +200,35 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
 //        startActivity(intent);
 //        finish();
 //    }
+
+    private void showAddressDialog() {
+        if (addressDialog == null) {
+            addressDialog = new CommonDialog.Builder()
+                    .setTitle("Enter Location")
+                    .setContent("The beta version only allows beta testers to access the Google Places API, you are not a beta tester, " +
+                            "please enter your address in the following format: Street, District, Region, Country.")
+                    .setPlaceHolder("Street, District, Region, Country")
+                    .setConfirmBtn("OK", new CommonDialog.OnClickListener() {
+                        @Override
+                        public void onClick(View v, String str) {
+                            if (!TextUtils.isEmpty(str)) {
+                                updateProfile(mAuth.getCurrentUser().getUid(), null, null, null, null, null, str, null);
+                                addressDialog.dismiss();
+                            } else {
+                                Toast.makeText(SettingActivity.this, "Please input your address!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setCancelBtn("Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addressDialog.dismiss();
+                        }
+                    })
+                    .create();
+        }
+        addressDialog.show(getSupportFragmentManager(), "verify");
+    }
 
     private void updatePassword() {
         if (updatePwdDialog == null) {
@@ -596,6 +629,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding, Settin
                     // TODO: Handle the error.
                     Status status = Autocomplete.getStatusFromIntent(data);
                     Log.i("TAG", status.getStatusMessage());
+                    showAddressDialog();
                 } else if (resultCode == RESULT_CANCELED) {
                     // The user canceled the operation.
                 }

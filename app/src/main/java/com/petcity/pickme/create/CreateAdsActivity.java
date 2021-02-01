@@ -41,12 +41,14 @@ import com.petcity.pickme.base.LiveDataWrapper;
 import com.petcity.pickme.common.utils.DogBreedUtil;
 import com.petcity.pickme.common.utils.PreferenceManager;
 import com.petcity.pickme.common.utils.TimeUtils;
+import com.petcity.pickme.common.widget.CommonDialog;
 import com.petcity.pickme.common.widget.LoadingDialog;
 import com.petcity.pickme.data.request.CreateAdRequest;
 import com.petcity.pickme.data.response.AdvertiseResponse;
 import com.petcity.pickme.data.response.CommonResponse;
 import com.petcity.pickme.data.response.User;
 import com.petcity.pickme.databinding.ActivityCreateAdsBinding;
+import com.petcity.pickme.setting.SettingActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +77,7 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
     private boolean isUpdate;
     private AdvertiseResponse ad;
     private LoadingDialog loadingDialog;
+    private CommonDialog addressDialog;
 
 
     private final SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -355,6 +358,35 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
 
     }
 
+    private void showAddressDialog() {
+        if (addressDialog == null) {
+            addressDialog = new CommonDialog.Builder()
+                    .setTitle("Enter Location")
+                    .setContent("The beta version only allows beta testers to access the Google Places API, you are not a beta tester, " +
+                            "please enter your address in the following format: Street, District, Region, Country.")
+                    .setPlaceHolder("Street, District, Region, Country")
+                    .setConfirmBtn("OK", new CommonDialog.OnClickListener() {
+                        @Override
+                        public void onClick(View v, String str) {
+                            if (!TextUtils.isEmpty(str)) {
+                                mBinding.location.setText(str);
+                                addressDialog.dismiss();
+                            } else {
+                                Toast.makeText(CreateAdsActivity.this, "Please input your address!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setCancelBtn("Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addressDialog.dismiss();
+                        }
+                    })
+                    .create();
+        }
+        addressDialog.show(getSupportFragmentManager(), "verify");
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -367,6 +399,8 @@ public class CreateAdsActivity extends BaseActivity<ActivityCreateAdsBinding, Cr
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i("TAG", status.getStatusMessage());
+                showAddressDialog();
+
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
