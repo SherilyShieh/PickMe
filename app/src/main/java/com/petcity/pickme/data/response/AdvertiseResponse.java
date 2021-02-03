@@ -1,5 +1,7 @@
 package com.petcity.pickme.data.response;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 import com.petcity.pickme.common.utils.TimeUtils;
 
@@ -76,7 +78,7 @@ public class AdvertiseResponse {
     }
 
     public String formatPrice() {
-        return "$" + price + " for " + duration + " hours";
+        return "$" + price + " for " + duration + " hour/s";
     }
 
     public String formatDate() {
@@ -84,7 +86,8 @@ public class AdvertiseResponse {
     }
 
     public String formatLocation() {
-        return district + ", " + region;
+        String com = TextUtils.isEmpty(district) ? "" : ", ";
+        return district + com + region;
     }
 
     public int getAd_id() {

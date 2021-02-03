@@ -70,7 +70,7 @@ public class User {
 
     public String formatAddress() {
         if (TextUtils.isEmpty(detail_address) && TextUtils.isEmpty(district) && TextUtils.isEmpty(region)) {
-            return "Unknow";
+            return "Unknown";
         }
         return (TextUtils.isEmpty(detail_address) ? "" : detail_address) + ", "
                 + (TextUtils.isEmpty(district) ? "" : district) + ", "
@@ -94,7 +94,7 @@ public class User {
     }
 
     public String getEmail() {
-        return TextUtils.isEmpty(email) ? "Unbind" : email;
+        return TextUtils.isEmpty(email) ? "Unbound" : email;
     }
 
     public String getPassword() {
@@ -114,7 +114,7 @@ public class User {
     }
 
     public String getGender() {
-        return TextUtils.isEmpty(gender) ? "Unknow" : gender;
+        return TextUtils.isEmpty(gender) ? "Unknown" : gender;
     }
 
     public String getAvatar() {
